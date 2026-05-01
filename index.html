@@ -322,7 +322,61 @@ body {
   .apunte-header, .resumen-container, .quiz-container, #sec-indice { padding-left: 20px; padding-right: 20px; }
 }
 
+/* === Mapa Mental === */
+.mindmap-container {
+  width: 100%;
+  height: 78vh;
+  min-height: 600px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 16px;
+  overflow: hidden;
+  position: relative;
+}
+#mindmap-svg { width: 100%; height: 100%; display: block; }
+#mindmap-svg .markmap-foreign { color: var(--text); }
+#mindmap-svg .markmap-node > circle { cursor: pointer; }
+
+.mindmap-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 4px 0;
+}
+.mm-btn {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  transition: all .15s;
+}
+.mm-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.mm-instr {
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 6px;
+  line-height: 1.55;
+}
+#sec-mapa-mental .apunte-header { padding-bottom: 8px; }
+#sec-mapa-mental { padding: 24px 32px 32px 32px; }
+
+@media (max-width: 900px) {
+  #sec-mapa-mental { padding: 20px; }
+  .mindmap-container { height: 70vh; min-height: 500px; }
+}
+
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.18.12/dist/browser/index.min.js"></script>
 </head>
 <body>
 <button id="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
@@ -352,6 +406,7 @@ body {
 <li><a href="#" onclick="showSection('16')" data-id="16"><span class="nav-num">16.</span> Proceso Administrativo y Optimización</a></li>
 <li><a href="#" onclick="showSection('03')" data-id="03"><span class="nav-num">3.</span> Teoría General de los Sistemas</a></li>
 <li><a href="#" onclick="showSection('02')" data-id="02"><span class="nav-num">2.</span> Intro a la TGS y la Tecnología</a></li>
+<li><a href="#" onclick="showSection('mapa-mental')" data-id="mapa-mental"><span class="nav-num">★</span> Mapa Mental</a></li>
 
   </ul>
 </nav>
@@ -431,6 +486,10 @@ body {
 <tr>
   <td><a class="link-apunte" onclick="showSection('02')">2. Intro a la TGS y la Tecnología</a></td>
   <td><span class="badge-q">30</span></td>
+</tr>
+<tr>
+  <td><a class="link-apunte" onclick="showSection('mapa-mental')"><strong>★ Mapa Mental — Repaso global</strong></a></td>
+  <td><span class="badge-q">repaso</span></td>
 </tr></tbody>
   </table>
 </section>
@@ -16685,6 +16744,23 @@ Verificaciones formales y sistemáticas.<br />
   </div>
 </section>
 
+<section id="sec-mapa-mental" class="section">
+  <div class="apunte-header">
+    <h1>★ Mapa Mental — Repaso Global</h1>
+    <p class="mm-instr">Recorré el mapa de izquierda a derecha. En cada nodo, intentá explicar el contenido en voz alta antes de hacer click para expandir y verificar la definición. Podés arrastrar el mapa y hacer zoom con la rueda del mouse.</p>
+  </div>
+
+  <div class="mindmap-controls">
+    <button class="mm-btn" onclick="mindmapExpandAll()">Expandir todo</button>
+    <button class="mm-btn" onclick="mindmapCollapseAll()">Colapsar todo</button>
+    <button class="mm-btn" onclick="mindmapFit()">Centrar</button>
+  </div>
+
+  <div class="mindmap-container">
+    <svg id="mindmap-svg"></svg>
+  </div>
+</section>
+
   </main>
 </div>
 <script>
@@ -16697,6 +16773,7 @@ function showSection(id) {
   const navLink = document.querySelector('.nav-list a[data-id="' + id + '"]');
   if (navLink) navLink.classList.add('active');
   if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
+  if (id === 'mapa-mental') initMindmap();
 }
 
 function responder(apunteId, qNum, letra) {
@@ -16793,6 +16870,621 @@ function filterNav(q) {
 }
 
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+/* ===========================================================
+   MAPA MENTAL — Repaso global de Sistemas y Métodos
+   =========================================================== */
+
+const MINDMAP_MARKDOWN = `# Sistemas y Métodos
+
+## 1. Definiciones generales
+### Organización
+- Sistema social coordinado para alcanzar objetivos comunes
+### Coordinación lógica
+- Articula tareas para que el sistema no sea un caos
+### SIG (Sistema de Información Gerencial)
+- Provee información a la dirección para lograr los objetivos
+### Apoyo a las operaciones
+- Sostiene el funcionamiento diario de la organización
+### Información para la administración
+- Datos para mandos medios y altos
+### Apoyo a la Alta Dirección
+- Información estratégica para decisiones de largo plazo
+### Planeamiento y control
+- Planificar actividades y verificar su cumplimiento
+### Soporte tecnológico
+- Equipos, comunicaciones, software, bases de datos y manuales
+### Sistema (definición)
+- Conjunto de personas coordinadas con un fin común
+### Manuales administrativos
+- Documentos que formalizan procedimientos y responsabilidades
+
+## 2. Intro a la TGS y la Tecnología
+### TIC
+- Tecnologías para acceder, producir, almacenar y comunicar información
+### Evolución exponencial
+- Telégrafo → Teléfono → Radio → Computadora → Internet
+### Sistema (Bertalanffy)
+- Conjunto de componentes que interactúan para un objetivo común
+### Finalidad
+- Todo sistema tiene un propósito que guía su comportamiento
+### Subsistemas
+- Partes que a su vez pueden ser sistemas en sí mismas
+### Interacción con entorno
+- Recibe inputs del ambiente y entrega outputs
+### Homeostasis
+- Capacidad de mantener equilibrio dinámico mediante autorregulación
+### Retroalimentación
+- Mecanismo de control que permite la homeostasis
+### Ciencia
+- Pregunta "¿cómo funciona el mundo?" — genera conocimiento
+### Tecnología
+- Pregunta "¿cómo usamos eso para algo útil?" — aplica conocimiento
+### Procesamiento batch
+- Acumula datos y los procesa en lote (ejemplo: lavar ropa de noche)
+### Procesamiento en línea
+- Usuario ingresa datos y el sistema responde inmediatamente (cajero)
+### Metodología de desarrollo
+- Procedimientos, técnicas y herramientas para crear software sistemáticamente
+### Top-Down
+- Parte del problema general y lo descompone en subproblemas
+
+## 3. Teoría General de los Sistemas (TGS)
+### Origen (1950-1968)
+- Ludwig von Bertalanffy desarrolló la TGS buscando principios unificadores
+### Sistema
+- Conjunto de elementos que se relacionan para alcanzar un fin
+### Reduccionismo
+- Estudia fenómenos complejos a través de sus partes aisladas
+### Enfoque sistémico
+- El todo es diferente de la suma de las partes
+### Sinergia
+- "2 + 2 = 5": el todo logra lo que las partes aisladas no pueden
+### Equilibrio
+- Dos fuerzas: evita cambios bruscos e impulsa cambios lentos
+### Retroalimentación negativa
+- Advierte desviaciones y toma medidas correctivas
+### Entropía
+- Desgaste del sistema por el paso del tiempo o el funcionamiento
+### Negentropía
+- Proceso de mayor organización y capacidad transformadora
+### Sistema cerrado
+- No intercambia con el entorno
+### Sistema abierto
+- Intercambia con el entorno y puede reducir su entropía
+### Información
+- Disminución de la incertidumbre
+### Organizaciones inteligentes (Senge)
+- Lugares donde la gente aprende continuamente a aprender en conjunto
+### Cinco disciplinas (Senge)
+- Pensamiento sistémico, dominio personal, modelos mentales, visión compartida, aprendizaje en equipo
+
+## 4. La Organización — Descripción
+### Equipo de trabajo
+- Ordena tareas y funciones para alcanzar objetivos
+### Evaluación anual
+- Correcciones de objetivos, premios y feedback formal
+### Comité
+- Equipo formal y permanente de gerencia media/alta
+### Comité — características
+- No figura en el organigrama; función decisoria y de discusión
+### Task force
+- Equipo temporal y multidisciplinario para un proyecto
+### Task force — características
+- Gerencia media + empleados con experiencia, duración corta o mediana
+### Comité vs Task force
+- Comité: permanente y decisorial; Task force: temporal y ejecutor
+
+## 5. Tipos de Estructura Organizacional
+### Diseño organizacional
+- Proceso de elegir la estructura alineada con los objetivos
+### Estrategia
+- Define la dirección de la empresa
+### Personal
+- Capacidades y disponibilidad del recurso humano
+### Tecnología
+- Condiciona cómo se opera y se trabaja
+### Logro de objetivos
+- Métrica final del diseño organizacional
+### División del trabajo
+- Especializarse en una parte del proceso productivo
+### Adam Smith
+- "La Riqueza de las Naciones": concepto original de la división del trabajo
+### Fábrica de alfileres
+- 10 personas pasan de 200 a 48.000 alfileres/día con división del trabajo
+### Henry Ford
+- Aplicación industrial: la línea de montaje
+### Especialización
+- Cada persona se enfoca en una tarea específica
+### Coordinación
+- Articula las partes para integrar el trabajo del conjunto
+
+## 6. Tipos de Organización
+### Organización
+- Sistema social de 2+ personas, coordinado, con una meta
+### Tres características
+- Propósito, plan y recursos
+### Administración
+- Asegura que la organización cumpla sus metas
+### Gerente
+- Responsable de dirigir y coordinar
+### Eficiencia
+- Usar menos recursos para el mismo resultado ("hacer bien")
+### Eficacia
+- Alcanzar los objetivos correctos ("hacer lo correcto")
+### Microambiente
+- Clientes, proveedores, competencia, reguladores
+### Macroambiente
+- Económicas, político-legales, socioculturales, tecnológicas, ecológicas
+### 5 Fuerzas de Porter
+- Competidores, nuevos participantes, sustitutos, proveedores y clientes
+### Estructura lineal
+- Simple, clara y rígida — típica de pequeñas empresas
+### Estructura funcional
+- Agrupa por función — eficiente pero genera silos
+### Estructura divisional
+- Unidades semiautónomas por producto — adaptable pero duplica recursos
+### Estructura matricial
+- Dos jefes por empleado — flexible pero compleja
+### Organización formal
+- Oficial y planificada, plasmada en el organigrama
+### Organización informal
+- Red social espontánea, "radiopasillo" y líderes informales
+### Gestión de lo informal
+- Entender, alinear y aprovechar la red informal en beneficio del todo
+
+## 7. El Modelo ACME
+### Modelo ACME
+- Descripción estándar de las 7 áreas de una organización
+### Escuela Neoclásica
+- Marco mecanicista del que surge ACME
+### Estado actual
+- Superado u obsoleto, solo aplica a mega-compañías
+### Valor didáctico
+- Permite comprender todas las tareas posibles de una empresa
+### 1. Investigación y Desarrollo
+- Investigación, desarrollo e ingeniería de productos
+### 2. Producción
+- Fábrica, industrial, compras, planificación, fabricación y control de calidad
+### 3. Comercialización
+- Investigación de mercado, publicidad, promoción, ventas, operaciones y distribución
+### 4. Finanzas y Control
+- Funciones de finanzas y de control
+### 5. Administración de Personal
+- Reclutamiento, sueldos, relaciones industriales, planificación y servicios
+### 6. Relaciones Externas
+- Comunicaciones y coordinación pública
+### 7. Secretaría y Legales
+- Funciones de secretaría y legales
+### Tip de estudio
+- Memorizar las 7 áreas en orden para el parcial
+
+## 8. Poder y Autoridad (introducción)
+### Poder por conocimiento
+- Basado en el saber especializado
+### Poder de referente
+- Surge de la admiración y el respeto
+### Poder de recompensa y castigo
+- Las dos formas tradicionales de influencia
+### Poder legítimo
+- Reconocimiento formal del derecho a ejercerlo
+### Autoridad formal
+- Poder legitimado por el cargo dentro de la estructura
+### Autoridad lineal
+- Cadena de mando directa
+### Autoridad de staff
+- Asesoramiento sin mando directo
+### Autoridad funcional
+- Mando en temas específicos sobre otras áreas
+### Delegación — beneficios
+- Libera al gerente, hace crecer al empleado y mejora procesos
+### Delegación — 5 pasos
+- Decidir qué, a quién, recursos, intervenir si hace falta y dar feedback
+### Delegación — qué NO es
+- "Tirar el trabajo encima" del empleado
+
+## 9. Poder y Autoridad (ampliado)
+### Poder
+- Capacidad potencial de modificar la conducta de otros
+### Influencia
+- Manifestación activa del poder — produce cambio real
+### Autoridad
+- Poder legitimado e institucionalizado por la estructura formal
+### Poder de recompensa (French y Raven)
+- Capacidad de distribuir recompensas
+### Poder coercitivo
+- Capacidad de castigar — motor: el miedo
+### Poder legítimo
+- Deriva de la posición formal en la organización
+### Poder de experto
+- Conocimiento o pericia especial
+### Poder de referencia
+- Cualidades personales, admiración o carisma
+### Jerarquía
+- Rangos de importancia que definen quién reporta a quién
+### Centralización
+- Decisiones concentradas en la cima — control y visión unificada
+### Centralización — desventajas
+- Lenta, sobrecarga al directivo y desmotiva a los empleados
+### Descentralización
+- Distribuye el poder hacia niveles más bajos
+### Descentralización vertical y horizontal
+- Vertical: hacia abajo en la cadena. Horizontal: hacia especialistas
+### Coordinación
+- Integra las actividades para alcanzar las metas
+### Diferenciación vs Integración
+- A más especialización (diferenciación), más coordinación (integración)
+### Ajuste mutuo (Mintzberg)
+- Coordinación por comunicación informal entre pares
+### Supervisión directa
+- Un gerente da órdenes y supervisa
+### Estandarización de procesos
+- Manuales y protocolos especifican cómo se hace
+### Estandarización de resultados
+- Especifica metas, dejando libertad en el método
+### Estandarización de habilidades
+- Formación estándar que anticipa la conducta del otro
+
+## 10. Tipos de Puestos y Equipos
+### Puesto de trabajo
+- Posición formal con tareas, responsabilidades y autoridad
+### Tareas
+- ¿Qué hace la persona en el puesto?
+### Responsabilidad
+- ¿Por qué resultados responde?
+### Autoridad
+- ¿Qué decisiones puede tomar?
+### Puesto vs Rol
+- Puesto: formal y estático. Rol: dinámico y conductual
+### Grupo de trabajo
+- Metas individuales, el resultado es la suma de aportes
+### Equipo
+- Metas colectivas con sinergia: el resultado es mayor que la suma
+### Sinergia
+- "1 + 1 = 3" — el resultado colectivo supera la suma individual
+### Grupos formales
+- Permanentes, unifuncionales, función continua
+### Task Force (formal)
+- Temporal, multifuncional, para un proyecto específico
+### Comités (formal)
+- Permanentes o de largo plazo, multifuncionales, para gobierno y asesoramiento
+
+## 11. Fundamentos de la Dirección
+### Dirección
+- Guiar, inspirar y coordinar personas más allá de administrar recursos
+### Habilidades del líder
+- Liderazgo, motivación, comunicación, delegación, negociación y toma de decisiones
+### Rejilla administrativa
+- Modelo de Blake & Mouton: producción vs personas
+### Estilo (1,1) Empobrecido
+- Mínimo interés en personas y producción
+### Estilo (9,1) Tareas
+- Alto interés en producción, bajo en personas
+### Estilo (1,9) Club campestre
+- Alto interés en personas, bajo en producción
+### Estilo (5,5) Mitad de camino
+- Equilibrio moderado entre ambas dimensiones
+### Estilo (9,9) Equipo
+- Ideal: máxima preocupación por producción y personas
+### Ciclo de motivación
+- Necesidad → Impulso → Acción → Satisfacción
+### Jerarquía de Maslow
+- Fisiológicas → Seguridad → Sociales → Estima → Autorrealización
+### Teoría de la expectativa
+- Motivación = poder lograrlo × recibir recompensa × valorarla
+### Reforzamiento positivo
+- Recompensar conductas deseadas para que se repitan
+### Motivación extrínseca vs intrínseca
+- Bonos/castigos externos vs satisfacción personal interna
+### Comunicación
+- Proceso de compartir significados mediante mensajes simbólicos
+### Comunicación formal vs informal
+- Canales oficiales vs canales no oficiales
+### Componentes de comunicación
+- Emisor, mensaje, medio, receptor y retroalimentación
+### Conflicto
+- Desacuerdo sobre recursos, metas o valores que dispara la negociación
+### Negociación dura vs suave
+- Ganar a toda costa vs ceder para evitar conflicto
+### Toma de decisiones
+- Definir → Analizar → Evaluar alternativas → Elegir → Aplicar
+
+## 12. Dirección: Liderazgo, Motivación, Comunicación y Negociación
+### Liderazgo gerencial
+- Proceso de dirigir e influir en las actividades laborales de un grupo
+### 4 implicaciones del liderazgo
+- Personas, distribución desigual de poder, influencia y valores en acción
+### Rejilla administrativa
+- Blake & Mouton — combina interés en producción y en personas
+### Administración empobrecida (1,1)
+- Mínimo interés en ambos ejes
+### Club campestre (1,9)
+- Alto interés en personas, bajo en producción
+### Mitad del camino (5,5)
+- Equilibrio moderado
+### Tareas y eficiencia (9,1)
+- Foco en producción, descuida personas
+### Administración en equipo (9,9)
+- Ideal: máximo interés en ambos
+### Motivación
+- Factores que ocasionan, canalizan y sostienen la conducta
+### Necesidades fisiológicas (Maslow)
+- Alimentación, vivienda, descanso
+### Seguridad
+- Contrato fijo, estabilidad laboral
+### Sociales
+- Trabajo en equipo, relaciones interpersonales
+### Estima
+- Reconocimiento, ascensos, títulos
+### Autorrealización
+- Desafíos y crecimiento personal
+### Teoría de Vroom
+- Motivación = Expectativa × Instrumentalidad × Valencia
+### Reforzamiento
+- Conductas con consecuencias positivas tienden a repetirse
+### Comunicación (definición)
+- Proceso de compartir significados a través de símbolos
+### 3 puntos esenciales
+- Personas, significado compartido y uso de símbolos
+### Comunicación formal
+- Respaldada y controlada por los gerentes
+### Comunicación vertical
+- Sube o baja por la cadena de mando
+### Negociación
+- Proceso para resolver diferencias y lograr acuerdos
+### Enfoque duro
+- Posición rígida, defiende su postura sin ceder
+### Enfoque suave
+- Evita conflictos cediendo fácilmente
+
+## 13. Planificación — Introducción
+### Planificación
+- Función fundamental que construye el futuro deseado de la organización
+### Planificación organizacional
+- Proceso sistemático de establecer objetivos y trazar el camino
+### Administración estratégica
+- Arte y ciencia de formular, implementar y evaluar decisiones multifuncionales
+### Misión
+- Razón de ser: qué hace, para quién y cómo
+### Visión
+- Imagen inspiradora del destino deseado en el futuro
+### Metas / Objetivos
+- Resultados específicos, concretos y medibles a alcanzar
+### Importancia de las metas
+- Dan dirección, enfocan esfuerzos, guían decisiones y miden avance
+### Planes estratégicos
+- Largo plazo (3-5 años+), nivel superior, amplios y genéricos
+### Planes tácticos
+- Mediano plazo (1-3 años), nivel medio, coordinan recursos
+### Planes operativos
+- Corto plazo, nivel técnico, procedimientos y cronogramas
+### FODA
+- Fortalezas, Oportunidades, Debilidades, Amenazas
+### Cadena de valor (Porter)
+- Actividades primarias y de soporte que crean valor para el cliente
+### Control
+- Asegura que las actividades reales se ajusten a lo planificado
+### Ciclo de control
+- Establecer parámetros → Medir → Evaluar → Retroalimentar
+### Herramientas de control
+- Balance, estado de resultados, presupuesto, auditorías
+### Balanced Scorecard
+- Perspectivas: financiera, cliente, procesos y aprendizaje
+
+## 14. Planificación y Control en la Gestión
+### Las metas y su importancia
+- Dan dirección, enfocan, guían planes y miden avance
+### Estrategia corporativa
+- Alta dirección — supervisa múltiples negocios
+### Estrategia de unidad de negocios
+- Cómo cada negocio gana en su mercado
+### Estrategia funcional
+- Cómo Marketing, RR.HH., Finanzas y Operaciones implementan la estrategia
+### Planificación estratégica
+- Establecimiento de metas y formulación de estrategias
+### Implantación de la estrategia
+- Ejecución de lo planificado
+### Control (gestión)
+- Asegura que las actividades se ajusten a lo proyectado
+### Importancia del control
+- Evita desviaciones y permite correcciones a tiempo
+### Controles financieros
+- Seguimiento de ingresos y egresos
+### Presupuesto
+- Plan en números: cuánto dinero para cada cosa
+### Auditorías
+- Verifican exactitud de estados financieros y eficiencia de procesos
+
+## 15. Proceso Administrativo — Introducción
+### Operaciones
+- Actividades de transformación que realizan las organizaciones
+### Organización de producción
+- Produce bienes tangibles que se pueden almacenar
+### Organización de servicios
+- Produce bienes intangibles, requiere participación del cliente
+### Administración de operaciones
+- Gestiona producción, RR.HH., instalaciones, calidad y control
+### Circuito administrativo
+- Representación gráfica de los procesos mediante símbolos
+### Simbología
+- Acordada con el usuario o basada en la Norma IRAM 34.501
+### Objetivo del circuito
+- Mapa del flujo de información y documentos en la empresa
+### Manual de organización
+- Define autoridad, responsabilidad y objetivos de cada puesto
+### Manual de procedimientos
+- Detalla circuitos, formularios, archivos y controles
+### Manual del usuario
+- Instrucciones para sistemas automatizados y máquinas específicas
+### Importancia de los manuales
+- Comunican funciones y son herramientas de control y desarrollo
+
+## 16. Proceso Administrativo y Optimización
+### Productividad
+- Medida de eficiencia: salidas / entradas
+### Objetivo de productividad
+- Maximizar salidas minimizando entradas
+### Calidad
+- Capacidad del producto/servicio de satisfacer al cliente
+### Calidad y costos (Deming)
+- Mejorar la calidad reduce costos a largo plazo, no los aumenta
+### Estudio de tiempos
+- Mide cuánto tarda un trabajador en una tarea específica
+### Cronograma de Gantt
+- Distribuye actividades en el tiempo, detecta cuellos de botella
+### Cycle time
+- Tiempo total para completar una tarea de principio a fin
+### Six Sigma
+- Metodología de mejora: máx. 3,4 defectos por millón (99,9996%)
+### DMAIC — Definir
+- Identificar el problema
+### DMAIC — Medir
+- Cuantificar la situación actual
+### DMAIC — Analizar
+- Encontrar las causas raíces
+### DMAIC — Mejorar
+- Implementar las soluciones
+### DMAIC — Controlar
+- Verificar que la mejora se sostenga en el tiempo
+### Manual de organización (visual)
+- Su herramienta visual es el organigrama
+### Manual de procedimientos (visual)
+- Su herramienta visual es el cursograma o flujograma
+### Diseño de formularios
+- Principal vehículo de información formal en la organización
+### Layout de oficinas
+- La disposición física impacta la funcionalidad operativa
+### Flujograma
+- Mejor manera de representar circuitos administrativos
+
+## 17. Cursogramas
+### Cursograma
+- Representación gráfica de operaciones y eventos en un proceso
+### Objetivo del cursograma
+- Visualizar cómo se hacen las cosas mediante símbolos en lugar de texto
+### Importancia
+- Evita anarquía, sirve de base para controles, da orden racional
+### Cursograma vertical
+- Una columna, partes no individualizadas, con texto explicativo
+### Cursograma horizontal
+- Varias columnas (por sector), sin narrativos, más claros
+### Pautas de diagramación
+- Simbología previa, cascada desde arriba-izquierda, número y destino de copias
+### Cada proceso lleva un número
+- Identifica unívocamente cada paso
+### Evitar narrativos
+- El diagrama debe ser autoexplicativo
+### Información que brindan
+- Unidades, operaciones, controles, formularios, cursos y archivos
+### IRAM 34.501
+- Simbología: operación, control, demora, archivos, destrucción, etc.
+### IRAM 34.502
+- Técnicas de representación gráfica: orientación, líneas, cruces
+### IRAM 34.503
+- Diseño de formularios: estándares A4, A3, 3A4, 4A4
+`;
+
+let mindmapInstance = null;
+let mindmapInitRetries = 0;
+
+// Convierte el markdown a la estructura de nodos que espera markmap-view.
+// Usamos un parser propio (en lugar de markmap-lib) para evitar dependencias adicionales.
+function parseMindmapMarkdown(md) {
+  const lines = md.split('\n');
+  const wrapper = { content: '', children: [] };
+  const stack = [{ depth: 0, node: wrapper }];
+
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+
+    let depth, content;
+    const heading = /^(#{1,6})\s+(.+)$/.exec(line);
+    const bullet = /^[-*]\s+(.+)$/.exec(line);
+
+    if (heading) {
+      depth = heading[1].length;
+      content = heading[2].trim();
+    } else if (bullet) {
+      depth = stack[stack.length - 1].depth + 1;
+      content = bullet[1].trim();
+    } else {
+      continue;
+    }
+
+    while (stack.length > 0 && stack[stack.length - 1].depth >= depth) {
+      stack.pop();
+    }
+    const node = { content: content, children: [] };
+    stack[stack.length - 1].node.children.push(node);
+    stack.push({ depth: depth, node: node });
+  }
+
+  return wrapper.children[0] || wrapper;
+}
+
+function initMindmap() {
+  if (mindmapInstance) return;
+  const Markmap = window.markmap && window.markmap.Markmap;
+  if (!Markmap) {
+    // markmap-view aún no se cargó — reintentamos hasta ~6 segundos.
+    if (mindmapInitRetries++ < 30) {
+      setTimeout(initMindmap, 200);
+    } else {
+      const svg = document.getElementById('mindmap-svg');
+      if (svg) svg.outerHTML = '<div style="padding:24px;color:#dc2626;">No se pudo cargar la librería del mapa mental. Verificá tu conexión a internet y recargá la página.</div>';
+    }
+    return;
+  }
+
+  const root = parseMindmapMarkdown(MINDMAP_MARKDOWN);
+  mindmapInstance = Markmap.create('#mindmap-svg', {
+    initialExpandLevel: 1,
+    duration: 350,
+    maxWidth: 320,
+    paddingX: 14,
+    color: () => '#2563eb',
+    nodeMinHeight: 18,
+    spacingHorizontal: 90,
+    spacingVertical: 8,
+  }, root);
+  setTimeout(() => mindmapInstance && mindmapInstance.fit(), 100);
+}
+
+function mindmapWalk(node, fn, depth) {
+  if (!node) return;
+  fn(node, depth || 0);
+  (node.children || []).forEach(c => mindmapWalk(c, fn, (depth || 0) + 1));
+}
+
+function mindmapGetData() {
+  if (!mindmapInstance) return null;
+  // markmap-view usa state.data en versiones recientes.
+  return mindmapInstance.state && mindmapInstance.state.data;
+}
+
+function mindmapExpandAll() {
+  if (!mindmapInstance) return;
+  const data = mindmapGetData();
+  mindmapWalk(data, n => { n.payload = n.payload || {}; n.payload.fold = 0; });
+  mindmapInstance.renderData();
+  setTimeout(() => mindmapInstance.fit(), 80);
+}
+
+function mindmapCollapseAll() {
+  if (!mindmapInstance) return;
+  const data = mindmapGetData();
+  mindmapWalk(data, (n, depth) => {
+    n.payload = n.payload || {};
+    n.payload.fold = depth >= 1 ? 1 : 0;
+  });
+  mindmapInstance.renderData();
+  setTimeout(() => mindmapInstance.fit(), 80);
+}
+
+function mindmapFit() {
+  if (mindmapInstance) mindmapInstance.fit();
+}
 
 </script>
 </body>
