@@ -338,6 +338,45 @@ body {
 #mindmap-svg .markmap-foreign { color: var(--text); }
 #mindmap-svg .markmap-node > circle { cursor: pointer; }
 
+#mindmap-graph-svg { width: 100%; height: 100%; display: block; cursor: grab; background: var(--surface); }
+#mindmap-graph-svg:active { cursor: grabbing; }
+#mindmap-graph-svg .mm-link { stroke: #cbd5e1; stroke-opacity: 0.7; fill: none; }
+#mindmap-graph-svg .mm-link.shared { stroke: #d97706; stroke-opacity: 0.85; stroke-width: 1.6; }
+#mindmap-graph-svg .mm-node { cursor: pointer; }
+#mindmap-graph-svg .mm-node-section { stroke: #1e3a8a; stroke-width: 2; }
+#mindmap-graph-svg .mm-node-concept { fill: #cbd5e1; stroke: #64748b; stroke-width: 1; }
+#mindmap-graph-svg .mm-node-shared { fill: #fbbf24; stroke: #d97706; stroke-width: 2.5; }
+#mindmap-graph-svg .mm-label { font-size: 11px; font-family: inherit; fill: var(--text); pointer-events: none; user-select: none; }
+#mindmap-graph-svg .mm-label-section { font-size: 13px; font-weight: 600; }
+#mindmap-graph-svg .mm-label-shared { font-weight: 600; fill: #92400e; }
+#mindmap-graph-svg.dim-non-shared .mm-node-concept,
+#mindmap-graph-svg.dim-non-shared .mm-link:not(.shared) { opacity: 0.12; }
+#mindmap-graph-svg.dim-non-shared .mm-label:not(.mm-label-shared):not(.mm-label-section) { opacity: 0.15; }
+#mindmap-graph-svg .mm-node.faded { opacity: 0.18; }
+#mindmap-graph-svg .mm-link.faded { opacity: 0.06; }
+#mindmap-graph-svg .mm-label.faded { opacity: 0.18; }
+
+.mm-tooltip {
+  position: absolute;
+  background: #0f172a;
+  color: #f8fafc;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  max-width: 320px;
+  pointer-events: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  z-index: 50;
+}
+.mm-tooltip strong { color: #fbbf24; }
+.mm-tooltip .mm-tooltip-secs { margin-top: 6px; color: #cbd5e1; font-size: 11px; }
+
+.mm-btn-toggle { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+.mm-btn-toggle:hover { filter: brightness(1.1); }
+.mm-btn.active { background: #d97706; color: #fff; border-color: #d97706; }
+.mindmap-controls > span { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+
 .mindmap-controls {
   display: flex;
   flex-wrap: wrap;
@@ -16751,13 +16790,22 @@ Verificaciones formales y sistemáticas.<br />
   </div>
 
   <div class="mindmap-controls">
-    <button class="mm-btn" onclick="mindmapExpandAll()">Expandir todo</button>
-    <button class="mm-btn" onclick="mindmapCollapseAll()">Colapsar todo</button>
-    <button class="mm-btn" onclick="mindmapFit()">Centrar</button>
+    <button class="mm-btn mm-btn-toggle" onclick="mindmapToggleView()" id="mindmap-toggle-btn">🔀 Cambiar a Grafo</button>
+    <span class="mm-controls-tree">
+      <button class="mm-btn" onclick="mindmapExpandAll()">Expandir todo</button>
+      <button class="mm-btn" onclick="mindmapCollapseAll()">Colapsar todo</button>
+      <button class="mm-btn" onclick="mindmapFit()">Centrar</button>
+    </span>
+    <span class="mm-controls-graph" style="display:none;">
+      <button class="mm-btn" onclick="mindmapGraphRecenter()">🎯 Recentrar</button>
+      <button class="mm-btn" id="mindmap-highlight-btn" onclick="mindmapGraphToggleHighlight()">🔍 Resaltar duplicados</button>
+    </span>
   </div>
 
   <div class="mindmap-container">
     <svg id="mindmap-svg"></svg>
+    <svg id="mindmap-graph-svg" style="display:none;"></svg>
+    <div id="mindmap-graph-tooltip" class="mm-tooltip" style="display:none;"></div>
   </div>
 </section>
 
@@ -16878,7 +16926,7 @@ function toggleSidebar() { document.getElementById('sidebar').classList.toggle('
 const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 
 ## 1. Definiciones generales
-### Organización
+### Organización {#organizacion}
 - Sistema social coordinado para alcanzar objetivos comunes
 ### Coordinación lógica
 - Articula tareas para que el sistema no sea un caos
@@ -16918,7 +16966,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Mecanismo de control que permite la homeostasis
 ### Ciencia
 - Pregunta "¿cómo funciona el mundo?" — genera conocimiento
-### Tecnología
+### Tecnología {#tecnologia}
 - Pregunta "¿cómo usamos eso para algo útil?" — aplica conocimiento
 ### Procesamiento batch
 - Acumula datos y los procesa en lote (ejemplo: lavar ropa de noche)
@@ -16938,7 +16986,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Estudia fenómenos complejos a través de sus partes aisladas
 ### Enfoque sistémico
 - El todo es diferente de la suma de las partes
-### Sinergia
+### Sinergia {#sinergia}
 - "2 + 2 = 5": el todo logra lo que las partes aisladas no pueden
 ### Equilibrio
 - Dos fuerzas: evita cambios bruscos e impulsa cambios lentos
@@ -16982,7 +17030,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Define la dirección de la empresa
 ### Personal
 - Capacidades y disponibilidad del recurso humano
-### Tecnología
+### Tecnología {#tecnologia}
 - Condiciona cómo se opera y se trabaja
 ### Logro de objetivos
 - Métrica final del diseño organizacional
@@ -16996,11 +17044,11 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Aplicación industrial: la línea de montaje
 ### Especialización
 - Cada persona se enfoca en una tarea específica
-### Coordinación
+### Coordinación {#coordinacion}
 - Articula las partes para integrar el trabajo del conjunto
 
 ## 6. Tipos de Organización
-### Organización
+### Organización {#organizacion}
 - Sistema social de 2+ personas, coordinado, con una meta
 ### Tres características
 - Propósito, plan y recursos
@@ -17066,7 +17114,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Surge de la admiración y el respeto
 ### Poder de recompensa y castigo
 - Las dos formas tradicionales de influencia
-### Poder legítimo
+### Poder legítimo {#poder-legitimo}
 - Reconocimiento formal del derecho a ejercerlo
 ### Autoridad formal
 - Poder legitimado por el cargo dentro de la estructura
@@ -17088,13 +17136,13 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Capacidad potencial de modificar la conducta de otros
 ### Influencia
 - Manifestación activa del poder — produce cambio real
-### Autoridad
+### Autoridad {#autoridad}
 - Poder legitimado e institucionalizado por la estructura formal
 ### Poder de recompensa (French y Raven)
 - Capacidad de distribuir recompensas
 ### Poder coercitivo
 - Capacidad de castigar — motor: el miedo
-### Poder legítimo
+### Poder legítimo {#poder-legitimo}
 - Deriva de la posición formal en la organización
 ### Poder de experto
 - Conocimiento o pericia especial
@@ -17110,7 +17158,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Distribuye el poder hacia niveles más bajos
 ### Descentralización vertical y horizontal
 - Vertical: hacia abajo en la cadena. Horizontal: hacia especialistas
-### Coordinación
+### Coordinación {#coordinacion}
 - Integra las actividades para alcanzar las metas
 ### Diferenciación vs Integración
 - A más especialización (diferenciación), más coordinación (integración)
@@ -17132,7 +17180,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - ¿Qué hace la persona en el puesto?
 ### Responsabilidad
 - ¿Por qué resultados responde?
-### Autoridad
+### Autoridad {#autoridad}
 - ¿Qué decisiones puede tomar?
 ### Puesto vs Rol
 - Puesto: formal y estático. Rol: dinámico y conductual
@@ -17140,7 +17188,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Metas individuales, el resultado es la suma de aportes
 ### Equipo
 - Metas colectivas con sinergia: el resultado es mayor que la suma
-### Sinergia
+### Sinergia {#sinergia}
 - "1 + 1 = 3" — el resultado colectivo supera la suma individual
 ### Grupos formales
 - Permanentes, unifuncionales, función continua
@@ -17154,7 +17202,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Guiar, inspirar y coordinar personas más allá de administrar recursos
 ### Habilidades del líder
 - Liderazgo, motivación, comunicación, delegación, negociación y toma de decisiones
-### Rejilla administrativa
+### Rejilla administrativa {#rejilla-administrativa}
 - Modelo de Blake & Mouton: producción vs personas
 ### Estilo (1,1) Empobrecido
 - Mínimo interés en personas y producción
@@ -17194,7 +17242,7 @@ const MINDMAP_MARKDOWN = `# Sistemas y Métodos
 - Proceso de dirigir e influir en las actividades laborales de un grupo
 ### 4 implicaciones del liderazgo
 - Personas, distribución desigual de poder, influencia y valores en acción
-### Rejilla administrativa
+### Rejilla administrativa {#rejilla-administrativa}
 - Blake & Mouton — combina interés en producción y en personas
 ### Administración empobrecida (1,1)
 - Mínimo interés en ambos ejes
@@ -17412,10 +17460,19 @@ function parseMindmapMarkdown(md) {
       continue;
     }
 
+    // Extrae sufijo {#id} del final del texto y lo separa.
+    let conceptId = null;
+    const idMatch = /\s*\{#([a-z0-9-]+)\}\s*$/i.exec(content);
+    if (idMatch) {
+      conceptId = idMatch[1];
+      content = content.slice(0, idMatch.index).trim();
+    }
+
     while (stack.length > 0 && stack[stack.length - 1].depth >= depth) {
       stack.pop();
     }
     const node = { content: content, children: [] };
+    if (conceptId) node.conceptId = conceptId;
     stack[stack.length - 1].node.children.push(node);
     stack.push({ depth: depth, node: node });
   }
@@ -17484,6 +17541,254 @@ function mindmapCollapseAll() {
 
 function mindmapFit() {
   if (mindmapInstance) mindmapInstance.fit();
+}
+
+// ============================================================
+// Vista de Grafo (alternativa al árbol)
+// ============================================================
+
+let mindmapGraphInited = false;
+let mindmapGraphSimulation = null;
+let mindmapGraphState = { highlight: false, currentMode: 'tree' };
+
+function buildMindmapGraph(rootNode) {
+  // rootNode = { content: "Sistemas y Métodos", children: [<sección>...] }
+  const sectionNodes = [];
+  const conceptNodes = [];
+  const conceptById = new Map();
+  const links = [];
+
+  (rootNode.children || []).forEach((sec, secIdx) => {
+    const sectionId = 'section-' + secIdx;
+    const sectionNode = {
+      id: sectionId,
+      type: 'section',
+      label: sec.content,
+      sectionIndex: secIdx,
+    };
+    sectionNodes.push(sectionNode);
+
+    (sec.children || []).forEach((concept, conceptIdx) => {
+      const explicitId = concept.conceptId;
+      let conceptNode;
+
+      if (explicitId && conceptById.has(explicitId)) {
+        conceptNode = conceptById.get(explicitId);
+        conceptNode.type = 'concept-shared';
+        conceptNode.sections.push(sec.content);
+      } else {
+        const localId = explicitId
+          ? 'concept-' + explicitId
+          : 'concept-' + secIdx + '-' + conceptIdx;
+        conceptNode = {
+          id: localId,
+          type: 'concept',
+          label: concept.content,
+          sections: [sec.content],
+          descriptions: (concept.children || []).map(c => c.content),
+          explicitId: explicitId || null,
+        };
+        if (explicitId) conceptById.set(explicitId, conceptNode);
+        conceptNodes.push(conceptNode);
+      }
+
+      links.push({
+        source: sectionId,
+        target: conceptNode.id,
+        shared: !!explicitId,
+      });
+    });
+  });
+
+  return {
+    nodes: [...sectionNodes, ...conceptNodes],
+    links: links,
+  };
+}
+
+function initMindmapGraph() {
+  if (mindmapGraphInited) return;
+  if (!window.d3) {
+    setTimeout(initMindmapGraph, 200);
+    return;
+  }
+  mindmapGraphInited = true;
+
+  const root = parseMindmapMarkdown(MINDMAP_MARKDOWN);
+  const graph = buildMindmapGraph(root);
+
+  const svg = d3.select('#mindmap-graph-svg');
+  const container = svg.node().parentNode;
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  svg.attr('viewBox', [0, 0, width, height]);
+
+  const g = svg.append('g');
+
+  svg.call(d3.zoom()
+    .scaleExtent([0.2, 4])
+    .on('zoom', (e) => g.attr('transform', e.transform))
+  );
+
+  const sectionCount = graph.nodes.filter(n => n.type === 'section').length;
+  const sectionColor = (i) => `hsl(${(i * 360 / sectionCount) | 0}, 65%, 55%)`;
+
+  const linkSel = g.append('g')
+    .attr('class', 'mm-links')
+    .selectAll('line')
+    .data(graph.links)
+    .join('line')
+    .attr('class', d => 'mm-link' + (d.shared ? ' shared' : ''));
+
+  const nodeSel = g.append('g')
+    .attr('class', 'mm-nodes')
+    .selectAll('g')
+    .data(graph.nodes)
+    .join('g')
+    .attr('class', 'mm-node')
+    .call(d3.drag()
+      .on('start', dragStarted)
+      .on('drag', dragged)
+      .on('end', dragEnded)
+    );
+
+  nodeSel.append('circle')
+    .attr('r', d => d.type === 'section' ? 18 : (d.type === 'concept-shared' ? 11 : 6))
+    .attr('class', d => d.type === 'section' ? 'mm-node-section' : (d.type === 'concept-shared' ? 'mm-node-shared' : 'mm-node-concept'))
+    .attr('fill', d => d.type === 'section' ? sectionColor(d.sectionIndex) : null);
+
+  nodeSel.append('text')
+    .attr('class', d => 'mm-label' + (d.type === 'section' ? ' mm-label-section' : (d.type === 'concept-shared' ? ' mm-label-shared' : '')))
+    .attr('x', d => d.type === 'section' ? 22 : (d.type === 'concept-shared' ? 15 : 10))
+    .attr('y', 4)
+    .text(d => d.label);
+
+  // Tooltip + click
+  const tooltip = document.getElementById('mindmap-graph-tooltip');
+  nodeSel
+    .on('mouseenter', function (event, d) {
+      const parts = [];
+      parts.push('<strong>' + escapeHtml(d.label) + '</strong>');
+      if (d.type === 'concept-shared') {
+        parts.push('<div class="mm-tooltip-secs">Aparece en ' + d.sections.length + ' secciones:<br>' + d.sections.map(escapeHtml).join('<br>') + '</div>');
+      } else if (d.type === 'concept' && d.descriptions && d.descriptions.length) {
+        parts.push('<div class="mm-tooltip-secs">' + d.descriptions.map(escapeHtml).join('<br>') + '</div>');
+      } else if (d.type === 'section') {
+        parts.push('<div class="mm-tooltip-secs">Sección del temario</div>');
+      }
+      tooltip.innerHTML = parts.join('');
+      tooltip.style.display = 'block';
+    })
+    .on('mousemove', function (event) {
+      const rect = container.getBoundingClientRect();
+      tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+      tooltip.style.top = (event.clientY - rect.top + 14) + 'px';
+    })
+    .on('mouseleave', function () {
+      tooltip.style.display = 'none';
+      nodeSel.classed('faded', false);
+      linkSel.classed('faded', false);
+    })
+    .on('click', function (event, d) {
+      // Resalta el nodo, sus enlaces y vecinos.
+      const neighbors = new Set([d.id]);
+      graph.links.forEach(l => {
+        const sId = (l.source.id || l.source);
+        const tId = (l.target.id || l.target);
+        if (sId === d.id) neighbors.add(tId);
+        if (tId === d.id) neighbors.add(sId);
+      });
+      nodeSel.classed('faded', n => !neighbors.has(n.id));
+      linkSel.classed('faded', l => {
+        const sId = (l.source.id || l.source);
+        const tId = (l.target.id || l.target);
+        return sId !== d.id && tId !== d.id;
+      });
+      event.stopPropagation();
+    });
+
+  svg.on('click', () => {
+    nodeSel.classed('faded', false);
+    linkSel.classed('faded', false);
+  });
+
+  const sim = d3.forceSimulation(graph.nodes)
+    .force('link', d3.forceLink(graph.links)
+      .id(d => d.id)
+      .distance(l => l.shared ? 110 : 70)
+      .strength(0.6)
+    )
+    .force('charge', d3.forceManyBody().strength(-220))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collide', d3.forceCollide().radius(d => d.type === 'section' ? 32 : (d.type === 'concept-shared' ? 22 : 14)))
+    .on('tick', () => {
+      linkSel
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+      nodeSel.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+  mindmapGraphSimulation = sim;
+
+  function dragStarted(event, d) {
+    if (!event.active) sim.alphaTarget(0.3).restart();
+    d.fx = d.x; d.fy = d.y;
+  }
+  function dragged(event, d) { d.fx = event.x; d.fy = event.y; }
+  function dragEnded(event, d) {
+    if (!event.active) sim.alphaTarget(0);
+    d.fx = null; d.fy = null;
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function mindmapToggleView() {
+  const treeSvg = document.getElementById('mindmap-svg');
+  const graphSvg = document.getElementById('mindmap-graph-svg');
+  const btn = document.getElementById('mindmap-toggle-btn');
+  const treeControls = document.querySelector('.mm-controls-tree');
+  const graphControls = document.querySelector('.mm-controls-graph');
+
+  if (mindmapGraphState.currentMode === 'tree') {
+    treeSvg.style.display = 'none';
+    graphSvg.style.display = 'block';
+    treeControls.style.display = 'none';
+    graphControls.style.display = 'inline-flex';
+    btn.textContent = '🔀 Cambiar a Árbol';
+    mindmapGraphState.currentMode = 'graph';
+    initMindmapGraph();
+    if (mindmapGraphSimulation) mindmapGraphSimulation.alpha(0.6).restart();
+  } else {
+    treeSvg.style.display = 'block';
+    graphSvg.style.display = 'none';
+    treeControls.style.display = 'inline-flex';
+    graphControls.style.display = 'none';
+    btn.textContent = '🔀 Cambiar a Grafo';
+    mindmapGraphState.currentMode = 'tree';
+    if (mindmapInstance) setTimeout(() => mindmapInstance.fit(), 50);
+  }
+}
+
+function mindmapGraphRecenter() {
+  if (mindmapGraphSimulation) mindmapGraphSimulation.alpha(0.6).restart();
+  const svg = document.getElementById('mindmap-graph-svg');
+  if (svg) {
+    const g = svg.querySelector('g');
+    if (g) g.setAttribute('transform', '');
+  }
+}
+
+function mindmapGraphToggleHighlight() {
+  const svg = document.getElementById('mindmap-graph-svg');
+  const btn = document.getElementById('mindmap-highlight-btn');
+  mindmapGraphState.highlight = !mindmapGraphState.highlight;
+  svg.classList.toggle('dim-non-shared', mindmapGraphState.highlight);
+  btn.classList.toggle('active', mindmapGraphState.highlight);
 }
 
 </script>
