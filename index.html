@@ -282,6 +282,66 @@ body {
 }
 .fc-respuesta.hidden { display: none; }
 
+/* === Parciales: práctica de examen === */
+#sec-parciales .apunte-header { padding-bottom: 18px; }
+#sec-parciales .apunte-header .subtitle {
+  color: var(--muted);
+  font-size: 13.5px;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+.parciales-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 18px 48px 0;
+  max-width: 900px;
+  margin-bottom: 18px;
+}
+.parcial-tab {
+  padding: 9px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13.5px;
+  font-family: var(--font);
+  font-weight: 500;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.parcial-tab:hover { border-color: var(--accent); color: var(--accent); }
+.parcial-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.parcial-block {
+  padding: 0 48px 48px;
+  max-width: 900px;
+}
+.parcial-block.hidden { display: none; }
+.parcial-header {
+  border-top: 2px solid var(--border);
+  padding-top: 24px;
+  margin-bottom: 18px;
+}
+.parcial-header h2 {
+  font-size: 18px;
+  margin: 0 0 6px 0;
+}
+.parcial-header .subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.parciales-list { display: block; }
+.parcial-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 22px;
+  margin-bottom: 12px;
+  transition: border-color .15s;
+}
+.parcial-card[data-revealed] { border-color: var(--green); }
+
 /* === Flashcards: vista agregada (modo estudio) === */
 #sec-flashcards .apunte-header { padding-bottom: 18px; }
 #sec-flashcards .apunte-header .subtitle {
@@ -697,6 +757,7 @@ body {
 <li><a href="#" onclick="showSection('03')" data-id="03"><span class="nav-num">3.</span> Teoría General de los Sistemas</a></li>
 <li><a href="#" onclick="showSection('02')" data-id="02"><span class="nav-num">2.</span> Intro a la TGS y la Tecnología</a></li>
 <li><a href="#" onclick="showSection('flashcards')" data-id="flashcards"><span class="nav-num">★</span> Flashcards (estudio)</a></li>
+<li><a href="#" onclick="showSection('parciales')" data-id="parciales"><span class="nav-num">★</span> Parciales</a></li>
 <li><a href="#" onclick="showSection('mapa-mental')" data-id="mapa-mental"><span class="nav-num">★</span> Mapa Mental</a></li>
 
   </ul>
@@ -781,6 +842,10 @@ body {
 <tr>
   <td><a class="link-apunte" onclick="showSection('flashcards')"><strong>★ Flashcards — Modo estudio</strong></a></td>
   <td><span class="badge-q">todas</span></td>
+</tr>
+<tr>
+  <td><a class="link-apunte" onclick="showSection('parciales')"><strong>★ Parciales — Práctica de examen</strong></a></td>
+  <td><span class="badge-q">3 simulacros</span></td>
 </tr>
 <tr>
   <td><a class="link-apunte" onclick="showSection('mapa-mental')"><strong>★ Mapa Mental — Repaso global</strong></a></td>
@@ -6353,10 +6418,10 @@ body {
 
   <div class="flashcard-container">
     <div class="quiz-header">
-      <h2>Flashcards — 22 preguntas abiertas</h2>
+      <h2>Flashcards — 23 preguntas abiertas</h2>
       <div class="quiz-meta">
-        <span class="score-badge" id="fc-progress-10">0 / 22 reveladas</span>
-        <button class="btn-reset" onclick="resetFlashcards('10', 22)">↺ Reiniciar</button>
+        <span class="score-badge" id="fc-progress-10">0 / 23 reveladas</span>
+        <button class="btn-reset" onclick="resetFlashcards('10', 23)">↺ Reiniciar</button>
       </div>
     </div>
     <div class="flashcards-list">
@@ -6491,6 +6556,12 @@ body {
   <p class="fc-pregunta"><span class="q-num">22.</span> ¿Cuál es la diferencia clave entre Grupos de Trabajo y Task Forces en relación al organigrama?</p>
   <button class="btn-reveal" onclick="revelarFlashcard('10','22')">Mostrar respuesta</button>
   <div class="fc-respuesta hidden">Los Grupos de Trabajo están ligados a la estructura jerárquica y figuran en el organigrama (un gerente y sus reportes directos). Los Task Forces no figuran en el organigrama; son estructuras transversales y temporales diseñadas fuera de la jerarquía formal.</div>
+</div>
+
+<div class="flashcard" id="fc-10-23">
+  <p class="fc-pregunta"><span class="q-num">23.</span> Mencioná las características que distinguen a un equipo de alto desempeño, sinérgico y exitoso.</p>
+  <button class="btn-reveal" onclick="revelarFlashcard('10','23')">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Participación de todos los miembros, visión compartida, comunicación abierta, autogestión, escucha activa, trabajo metodológico, diseño claro de roles, búsqueda de consenso y orientación a la calidad. Lo opuesto (lo que NO caracteriza a un equipo de alto desempeño): visión parcial, sin liderazgo, individualidad, competencia interna, micro-management y priorizar la velocidad sobre la calidad.</div>
 </div>
 
     </div>
@@ -9317,10 +9388,10 @@ body {
 
   <div class="flashcard-container">
     <div class="quiz-header">
-      <h2>Flashcards — 25 preguntas abiertas</h2>
+      <h2>Flashcards — 26 preguntas abiertas</h2>
       <div class="quiz-meta">
-        <span class="score-badge" id="fc-progress-12">0 / 25 reveladas</span>
-        <button class="btn-reset" onclick="resetFlashcards('12', 25)">↺ Reiniciar</button>
+        <span class="score-badge" id="fc-progress-12">0 / 26 reveladas</span>
+        <button class="btn-reset" onclick="resetFlashcards('12', 26)">↺ Reiniciar</button>
       </div>
     </div>
     <div class="flashcards-list">
@@ -9473,6 +9544,12 @@ body {
   <p class="fc-pregunta"><span class="q-num">25.</span> ¿Cuál es la relación entre valores y liderazgo según el apunte?</p>
   <button class="btn-reveal" onclick="revelarFlashcard('12','25')">Mostrar respuesta</button>
   <div class="fc-respuesta hidden">El liderazgo es fundamentalmente una cuestión de valores. Los seguidores deben conocer y entender los valores del líder para ejecutar acciones alineadas con ellos.</div>
+</div>
+
+<div class="flashcard" id="fc-12-26">
+  <p class="fc-pregunta"><span class="q-num">26.</span> ¿Cuáles son las capacidades clave del líder para desarrollar el potencial del grupo y alcanzar objetivos comunes?</p>
+  <button class="btn-reveal" onclick="revelarFlashcard('12','26')">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">A) Comunicación: transmitir la visión y dar feedback claro al equipo. B) Motivación: canalizar y sostener la conducta del grupo hacia las metas. C) Delegación: asignar autoridad y responsabilidad para empoderar a los miembros. D) Toma de decisiones: definir el rumbo frente a alternativas y resolver problemas. Se complementan con la negociación frente a conflictos.</div>
 </div>
 
     </div>
@@ -12509,10 +12586,10 @@ Verificaciones formales y sistemáticas.<br />
 
   <div class="flashcard-container">
     <div class="quiz-header">
-      <h2>Flashcards — 25 preguntas abiertas</h2>
+      <h2>Flashcards — 26 preguntas abiertas</h2>
       <div class="quiz-meta">
-        <span class="score-badge" id="fc-progress-14">0 / 25 reveladas</span>
-        <button class="btn-reset" onclick="resetFlashcards('14', 25)">↺ Reiniciar</button>
+        <span class="score-badge" id="fc-progress-14">0 / 26 reveladas</span>
+        <button class="btn-reset" onclick="resetFlashcards('14', 26)">↺ Reiniciar</button>
       </div>
     </div>
     <div class="flashcards-list">
@@ -12665,6 +12742,12 @@ Verificaciones formales y sistemáticas.<br />
   <p class="fc-pregunta"><span class="q-num">25.</span> ¿Por qué el Balanced Scorecard es "balanceado"? ¿Qué evita mirar solo perspectivas financieras?</p>
   <button class="btn-reveal" onclick="revelarFlashcard('14','25')">Mostrar respuesta</button>
   <div class="fc-respuesta hidden">Porque mide cuatro perspectivas interdependientes: financiera, cliente, procesos internos y aprendizaje-crecimiento. Evita que una empresa se enfoque únicamente en ganancias presentes ignorando satisfacción del cliente, eficiencia operativa o capacidad de aprendizaje, que son críticas para el futuro.</div>
+</div>
+
+<div class="flashcard" id="fc-14-26">
+  <p class="fc-pregunta"><span class="q-num">26.</span> ¿Qué aspectos importantes brinda el control de gestión a una organización?</p>
+  <button class="btn-reveal" onclick="revelarFlashcard('14','26')">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">1) Verifica el cumplimiento de los objetivos definidos en la planificación. 2) Mide el desempeño real con indicadores (KPIs, Balanced Scorecard, balance, estado de resultados). 3) Detecta desvíos entre lo planeado y lo ejecutado, permitiendo aplicar acciones correctivas. 4) Provee información a la alta dirección para la toma de decisiones. 5) Asegura el uso eficiente de los recursos. 6) Cierra el ciclo administrativo (planificar sin controlar es un ejercicio inútil).</div>
 </div>
 
     </div>
@@ -13508,10 +13591,10 @@ Verificaciones formales y sistemáticas.<br />
 
   <div class="flashcard-container">
     <div class="quiz-header">
-      <h2>Flashcards — 22 preguntas abiertas</h2>
+      <h2>Flashcards — 23 preguntas abiertas</h2>
       <div class="quiz-meta">
-        <span class="score-badge" id="fc-progress-15">0 / 22 reveladas</span>
-        <button class="btn-reset" onclick="resetFlashcards('15', 22)">↺ Reiniciar</button>
+        <span class="score-badge" id="fc-progress-15">0 / 23 reveladas</span>
+        <button class="btn-reset" onclick="resetFlashcards('15', 23)">↺ Reiniciar</button>
       </div>
     </div>
     <div class="flashcards-list">
@@ -13646,6 +13729,12 @@ Verificaciones formales y sistemáticas.<br />
   <p class="fc-pregunta"><span class="q-num">22.</span> ¿Por qué el acuerdo con el usuario sobre la simbología de circuitos es una alternativa válida a la norma IRAM-34.501?</p>
   <button class="btn-reveal" onclick="revelarFlashcard('15','22')">Mostrar respuesta</button>
   <div class="fc-respuesta hidden">Porque lo importante es que todos en la organización comprendan el significado de los símbolos utilizados. Si se acuerda una simbología personalizada con el usuario, esa comprensión está garantizada. La norma IRAM-34.501 es una alternativa estandarizada cuando no se necesita crear símbolos propios.</div>
+</div>
+
+<div class="flashcard" id="fc-15-23">
+  <p class="fc-pregunta"><span class="q-num">23.</span> Describí brevemente las 4 actividades básicas del proceso administrativo (PODC).</p>
+  <button class="btn-reveal" onclick="revelarFlashcard('15','23')">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>P</strong>lanificar: definir objetivos y trazar el camino para alcanzarlos (qué se quiere lograr y cómo). <strong>O</strong>rganizar: asignar recursos, dividir tareas y diseñar la estructura para ejecutar el plan. <strong>D</strong>irigir: liderar, motivar y comunicar al equipo para que ejecute lo planeado. <strong>C</strong>ontrolar: medir los resultados reales contra lo planificado y aplicar correcciones para mantener el rumbo. Es un ciclo continuo: el control retroalimenta la planificación.</div>
 </div>
 
     </div>
@@ -15723,10 +15812,10 @@ Verificaciones formales y sistemáticas.<br />
 
   <div class="flashcard-container">
     <div class="quiz-header">
-      <h2>Flashcards — 24 preguntas abiertas</h2>
+      <h2>Flashcards — 26 preguntas abiertas</h2>
       <div class="quiz-meta">
-        <span class="score-badge" id="fc-progress-16">0 / 24 reveladas</span>
-        <button class="btn-reset" onclick="resetFlashcards('16', 24)">↺ Reiniciar</button>
+        <span class="score-badge" id="fc-progress-16">0 / 26 reveladas</span>
+        <button class="btn-reset" onclick="resetFlashcards('16', 26)">↺ Reiniciar</button>
       </div>
     </div>
     <div class="flashcards-list">
@@ -15873,6 +15962,18 @@ Verificaciones formales y sistemáticas.<br />
   <p class="fc-pregunta"><span class="q-num">24.</span> ¿Qué relación existe entre la medición de tiempos y la planificación de la capacidad de producción?</p>
   <button class="btn-reveal" onclick="revelarFlashcard('16','24')">Mostrar respuesta</button>
   <div class="fc-respuesta hidden">El estudio de tiempos establece el tiempo estándar de cada tarea; el cycle time permite calcular cuántas unidades se pueden producir en un período; y estos datos se usan para planificar la capacidad, asignar recursos y determinar plazos.</div>
+</div>
+
+<div class="flashcard" id="fc-16-25">
+  <p class="fc-pregunta"><span class="q-num">25.</span> ¿Qué aspectos se tratan en el estudio de métodos y qué aspectos en el estudio de tiempos?</p>
+  <button class="btn-reveal" onclick="revelarFlashcard('16','25')">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Estudio de métodos</strong> (cómo se hace el trabajo): diseño y reingeniería de procesos, análisis de tareas, y estandarización con mejores prácticas. <strong>Estudio de tiempos</strong> (cuánto tarda el trabajo): medición de tiempos, identificación de cuellos de botella, establecimiento de estándares de tiempo y cronometraje de actividades. Ambos se complementan: primero se diseña el método óptimo y luego se mide cuánto tarda ejecutarlo.</div>
+</div>
+
+<div class="flashcard" id="fc-16-26">
+  <p class="fc-pregunta"><span class="q-num">26.</span> Definí productividad, eficacia y eficiencia, y explicá cómo se relacionan entre sí.</p>
+  <button class="btn-reveal" onclick="revelarFlashcard('16','26')">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Productividad</strong> = salidas / entradas: cuánto se produce en relación a los recursos usados. <strong>Eficacia</strong> = lograr los objetivos correctos ("hacer las cosas que se deben hacer"). <strong>Eficiencia</strong> = lograr el resultado con la menor cantidad de recursos ("hacer las cosas bien"). <strong>Relación</strong>: la productividad alta requiere ambas. Sin eficacia (objetivo correcto) y sin eficiencia (uso óptimo de recursos), la productividad cae. Eficacia sin eficiencia desperdicia recursos; eficiencia sin eficacia hace muy bien lo que no sirve. Una empresa exitosa apunta al objetivo correcto y lo alcanza con los menores recursos posibles.</div>
 </div>
 
     </div>
@@ -17861,6 +17962,229 @@ Verificaciones formales y sistemáticas.<br />
   </div>
 </section>
 
+<section id="sec-parciales" class="section">
+  <div class="apunte-header">
+    <h1>★ Parciales — Práctica de examen</h1>
+    <p class="subtitle">Tres exámenes simulados con consignas, peso porcentual y respuestas reveladas. <strong>Parcial 1</strong> es la réplica del parcial real (28-04-2026); <strong>Parciales 2 y 3</strong> son simulacros con consignas similares sobre otros temas del apunte.</p>
+  </div>
+
+  <div class="parciales-tabs">
+    <button class="parcial-tab active" onclick="mostrarParcial('1', this)">Parcial 1 — Réplica real</button>
+    <button class="parcial-tab" onclick="mostrarParcial('2', this)">Parcial 2 — Simulacro</button>
+    <button class="parcial-tab" onclick="mostrarParcial('3', this)">Parcial 3 — Simulacro</button>
+  </div>
+
+  <div class="parcial-block" id="parcial-1">
+    <div class="parcial-header">
+      <h2>Parcial Nº 1 — 28-04-2026 (réplica)</h2>
+      <p class="subtitle">10 consignas, peso total 100%. Mostrá la respuesta para verificar tu solución.</p>
+    </div>
+    <div class="parciales-list">
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(2%)</strong> "En una empresa, las personas se dedican a una actividad específica y se agrupan en una unidad o área, como ser: Finanzas, Operaciones, Sistemas, Marketing, etc." Nos referimos a la estructura organizacional del tipo: Lineal, Por producto, Matricial, Funcional o Por mercado.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Funcional</strong>. Es la estructura que agrupa empleados por función o especialidad (Finanzas, Marketing, Operaciones, RRHH). Ventaja: especialización. Desventaja: silos entre departamentos.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(8%)</strong> Indicar cuáles son características de equipos de alto desempeño, sinérgicos y exitosos: Visión parcial, Sin liderazgo, Participación, Individualidad, Competencia interna, Visión compartida, Comunicación, Autogestión, Escucha activa, Micro-management, Priorizar la velocidad, Metodológicos, Diseño, Consenso, Calidad.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Características <strong>correctas</strong>: Participación, Visión compartida, Comunicación, Autogestión, Escucha activa, Metodológicos, Diseño, Consenso y Calidad. <strong>NO</strong> son características: Visión parcial, Sin liderazgo, Individualidad, Competencia interna, Micro-management y Priorizar la velocidad.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(4%)</strong> El liderazgo es un proceso que guía a un grupo de personas para alcanzar objetivos comunes. Se basa en ciertas capacidades del líder para desarrollar el potencial del grupo y contribuir al éxito colectivo. Indicar cuáles son esas capacidades (A, B, C, D).</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>A) Comunicación:</strong> transmitir la visión y dar feedback claro. <strong>B) Motivación:</strong> canalizar y sostener la conducta del grupo hacia las metas. <strong>C) Delegación:</strong> asignar autoridad y responsabilidad para empoderar a los miembros. <strong>D) Toma de decisiones:</strong> definir el rumbo frente a alternativas y resolver problemas. (Se complementan con la negociación frente a conflictos.)</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(5%)</strong> Indicar cuáles son las 5 fuerzas de Porter (de la lista: Poder de negociación de los proveedores, Amenaza de nuevos competidores, Rivalidad entre clientes existentes, Amenaza de productos sustitutos, Rivalidad entre competidores existentes, Amenaza de nuevos clientes, Poder de negociación de los competidores, Amenaza de nuevos proveedores, Rivalidad entre productos sustitutos, Poder de negociación de los compradores).</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Las 5 fuerzas correctas son: 1) <strong>Poder de negociación de los proveedores</strong>, 2) <strong>Amenaza de nuevos competidores</strong>, 3) <strong>Amenaza de productos sustitutos</strong>, 4) <strong>Rivalidad entre competidores existentes</strong>, 5) <strong>Poder de negociación de los compradores</strong> (clientes). Las demás opciones son trampas (rivalidad entre clientes, poder de los competidores, amenaza de proveedores, etc.).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(6%)</strong> Indicar qué aspectos se tratan en el estudio de métodos y cuáles en el estudio de tiempos.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Estudio de métodos:</strong> Diseño y reingeniería de procesos, Análisis de tareas, Estandarización con mejores prácticas. <strong>Estudio de tiempos:</strong> Identificación de cuellos de botella, Medición de tiempos, Establecimiento de estándares de tiempo, Cronometraje de actividades. (Distractores en la lista: Relación con el mercado, Descentralización, Segregación de funciones, Planificación por estimado a completar, Miniaturización — ninguno corresponde a estos estudios.)</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(15%)</strong> Describir brevemente las 4 actividades básicas del proceso de administración (PODC).</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>P</strong>lanificar: definir objetivos y trazar el camino para alcanzarlos. <strong>O</strong>rganizar: asignar recursos, dividir tareas y diseñar la estructura para ejecutar el plan. <strong>D</strong>irigir: liderar, motivar y comunicar al equipo para que ejecute lo planeado. <strong>C</strong>ontrolar: medir resultados reales contra lo planificado y aplicar correcciones para mantener el rumbo. Es un ciclo continuo: el control retroalimenta la planificación.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(15%)</strong> Describir brevemente las "5C" del trabajo en equipo.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><em>Tema fuera del apunte oficial — consultar bibliografía complementaria. La versión más difundida del modelo "5C" sostiene que un buen equipo se basa en: <strong>Confianza</strong> (creer en el otro y en el equipo), <strong>Compromiso</strong> (dedicación a la meta común), <strong>Comunicación</strong> (intercambio claro y honesto), <strong>Coordinación</strong> (sincronización de esfuerzos) y <strong>Complementariedad</strong> (habilidades distintas que se suman).</em></div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(15%)</strong> Describir las teorías de la motivación "X" e "Y" de McGregor.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><em>Tema fuera del apunte oficial — consultar bibliografía complementaria. La <strong>Teoría X</strong> de McGregor asume que las personas son perezosas, evitan el trabajo y necesitan control, supervisión estricta y amenazas para producir (estilo autoritario). La <strong>Teoría Y</strong> asume que las personas se autodirigen, buscan responsabilidad, son creativas y trabajan con compromiso si encuentran sentido en lo que hacen (estilo participativo). McGregor proponía que los gerentes adoptaran la Teoría Y para liberar el potencial humano.</em></div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(15%)</strong> Describir brevemente los aspectos importantes que brinda el control de gestión en una organización o empresa.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">i) Verifica el cumplimiento de los objetivos definidos en la planificación. ii) Mide el desempeño real con indicadores (KPIs, Balanced Scorecard, balance, estado de resultados). iii) Detecta desvíos entre lo planeado y lo ejecutado, permitiendo aplicar acciones correctivas. iv) Provee información a la alta dirección para la toma de decisiones. v) Asegura el uso eficiente de los recursos. vi) Cierra el ciclo administrativo (planificar sin controlar es un ejercicio inútil).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(15%)</strong> ¿Qué es la productividad, la eficacia y la eficiencia, y cómo se relacionan estos conceptos entre sí?</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Productividad</strong> = salidas / entradas: cuánto se produce con los recursos usados. <strong>Eficacia</strong> = lograr los objetivos correctos ("hacer las cosas que se deben hacer"). <strong>Eficiencia</strong> = lograr el resultado con la menor cantidad de recursos ("hacer las cosas bien"). <strong>Relación:</strong> la productividad alta requiere las dos — ser eficaz (apuntar al objetivo correcto) y eficiente (con pocos recursos). Eficacia sin eficiencia desperdicia recursos; eficiencia sin eficacia hace muy bien lo que no sirve.</div>
+</div>
+
+    </div>
+  </div>
+
+  <div class="parcial-block hidden" id="parcial-2">
+    <div class="parcial-header">
+      <h2>Parcial Nº 2 — Simulacro (Estructura organizacional + Sistemas)</h2>
+      <p class="subtitle">10 consignas con la misma estructura y peso porcentual que el parcial real, sobre otros temas del apunte.</p>
+    </div>
+    <div class="parciales-list">
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(2%)</strong> "En la empresa, los empleados reportan a dos jefes: uno funcional (su área de especialidad) y uno de proyecto. Cada empleado se asigna temporalmente a proyectos según los necesite la organización." Nos referimos a la estructura organizacional del tipo: Lineal, Funcional, Divisional, Matricial, Por producto.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Matricial</strong>. Combina departamentalización funcional con producto/proyecto. Cada empleado tiene dos jefes (rompe la unidad de mando). Ventajas: flexible, uso eficiente de especialistas. Desventajas: conflictos de poder y de prioridades.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(8%)</strong> Indicar cuáles son ventajas REALES de la organización informal (de la lista): Mejora la comunicación vía radiopasillo, Genera silos entre departamentos, Satisface necesidades sociales, Genera rumores dañinos, Resuelve problemas ágilmente, Promueve la conformidad por encima del rendimiento, Genera compromiso, Crea resistencia al cambio, Facilita conflictos, Fomenta líderes informales útiles.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Ventajas reales: <strong>Mejora la comunicación vía radiopasillo</strong>, <strong>Satisface necesidades sociales</strong>, <strong>Resuelve problemas ágilmente</strong>, <strong>Genera compromiso</strong>, <strong>Fomenta líderes informales útiles</strong>. Las demás son limitaciones (rumores, resistencia, conformidad, conflictos) o no aplican (silos pertenece a la formal funcional).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(4%)</strong> El control es la última fase del proceso administrativo y permite asegurar que las actividades reales se ajusten a las planificadas. Indicar las 4 fases del proceso de control (i, ii, iii, iv).</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>i)</strong> Establecer parámetros de medición (indicadores). <strong>ii)</strong> Medir los resultados reales. <strong>iii)</strong> Evaluar el resultado comparándolo con el estándar. <strong>iv)</strong> Retroalimentar tomando medidas correctivas.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(5%)</strong> Indicar cuáles son los 4 elementos clave del diseño organizacional (de la lista): División del trabajo, Liderazgo carismático, Departamentalización, Motivación intrínseca, Jerarquía, Negociación, Coordinación, Innovación, Calidad total, Cadena de valor.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Los 4 elementos correctos son: <strong>División del trabajo</strong> (especialización), <strong>Departamentalización</strong> (agrupar tareas), <strong>Jerarquía</strong> (línea de autoridad y responsabilidad) y <strong>Coordinación</strong> (integrar actividades). Las demás opciones son temas relacionados pero no son elementos del diseño organizacional.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(6%)</strong> Indicar qué aspectos forman parte del microambiente y cuáles del macroambiente.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Microambiente</strong> (actores cercanos): clientes, proveedores, competencia, grupos reguladores (agencias, sindicatos, grupos de interés). <strong>Macroambiente</strong> (fuerzas amplias): fuerzas económicas, político-legales, socioculturales, tecnológicas y ecológicas.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(15%)</strong> Describir brevemente qué es un sistema según la TGS y mencionar sus componentes básicos.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Un <strong>sistema</strong> es un conjunto de elementos que se relacionan para alcanzar un fin. Componentes básicos: <strong>Entradas (inputs)</strong> — recursos que ingresan; <strong>Procesos</strong> — transformaciones que agregan valor; <strong>Salidas (outputs)</strong> — productos o servicios resultantes; <strong>Retroalimentación (feedback)</strong> — información que ajusta el sistema; <strong>Entorno</strong> — contexto que condiciona y es afectado por el sistema. La TGS (Bertalanffy, 1950-1968) propone una visión integradora del todo más que de las partes.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(15%)</strong> Describir la diferencia entre microambiente y macroambiente, dando un ejemplo de impacto de cada uno sobre una empresa.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">El <strong>microambiente</strong> son los actores cercanos que afectan la capacidad de servir al cliente (clientes, proveedores, competencia, reguladores). Ejemplo: un proveedor único sube los precios y la empresa debe absorberlos o renegociar. El <strong>macroambiente</strong> son las fuerzas amplias que afectan a todo el microambiente (económicas, político-legales, socioculturales, tecnológicas, ecológicas). Ejemplo: una nueva ley impositiva (político-legal) cambia los costos para toda la industria. Diferencia clave: el micro se puede negociar/influir; el macro hay que adaptarse a él.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(15%)</strong> Describir las 5 fuerzas de Porter explicando cómo cada una intensifica o reduce la competencia en un sector.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">1) <strong>Rivalidad entre competidores existentes</strong>: a más competidores y productos similares, mayor competencia. 2) <strong>Amenaza de nuevos competidores</strong>: barreras de entrada bajas (poco capital, sin patentes) intensifican la competencia. 3) <strong>Amenaza de productos sustitutos</strong>: si existe un producto que cumple la misma función, limita los precios del sector. 4) <strong>Poder de negociación de proveedores</strong>: pocos proveedores con insumos críticos pueden imponer condiciones. 5) <strong>Poder de negociación de clientes (compradores)</strong>: clientes informados, concentrados o con muchas alternativas presionan precios a la baja.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(15%)</strong> Explicar qué es un cursograma (flujograma) y mencionar al menos 5 símbolos básicos con su significado.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Un <strong>cursograma</strong> o flujograma es la representación gráfica, mediante símbolos, de los procesos de una organización (cómo fluye la información o los documentos a través de las áreas). Sirve para visualizar el proceso, detectar deficiencias y eliminar duplicaciones. Símbolos básicos (norma IRAM-34.501): <strong>Óvalo</strong> = operación, <strong>Rectángulo</strong> = control, <strong>"D"</strong> = demora, <strong>Rombo</strong> = decisión, <strong>Rectángulo con base curva</strong> = documento, <strong>Triángulo (▽)</strong> = archivo definitivo, <strong>Triángulo invertido (△)</strong> = archivo transitorio.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(15%)</strong> ¿Qué diferencia hay entre eficacia y eficiencia? ¿Qué pasa si una organización tiene una sin la otra? Dar un ejemplo concreto.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Eficacia</strong> = hacer las cosas correctas (lograr los objetivos). <strong>Eficiencia</strong> = hacer las cosas bien (con la menor cantidad de recursos). <strong>Eficaz pero no eficiente</strong>: alcanza la meta pero gastando muchísimos recursos (ejemplo: un equipo de marketing que vende mucho gastando 10× más en publicidad que la competencia). <strong>Eficiente pero no eficaz</strong>: ejecuta tareas rápido y barato pero apunta al objetivo equivocado (ejemplo: un alumno que estudia muy organizadamente todo el material que NO entra en el parcial). El éxito requiere ambas.</div>
+</div>
+
+    </div>
+  </div>
+
+  <div class="parcial-block hidden" id="parcial-3">
+    <div class="parcial-header">
+      <h2>Parcial Nº 3 — Simulacro (Dirección, Planificación y Optimización)</h2>
+      <p class="subtitle">10 consignas con peso similar al parcial real, enfocadas en motivación, planificación y mejora de procesos.</p>
+    </div>
+    <div class="parciales-list">
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(2%)</strong> "El plan es maestro, abarca toda la organización, es responsabilidad de la alta dirección/CEO y tiene un horizonte de 3 a 5 años o más." Nos referimos al nivel de planificación: Operativo, Programado, Táctico, Estratégico, Departamental.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Estratégico</strong>. Plan a largo plazo, formulado por la alta dirección, amplio y genérico, contempla la organización como un todo, con decisiones complejas y no programadas.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(8%)</strong> Indicar cuáles de los siguientes son niveles de la pirámide de Maslow (en orden ascendente desde la base): Fisiológicas, Económicas, Seguridad, Felicidad, Sociales, Logro, Estima, Productividad, Autorrealización, Liderazgo.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Los niveles correctos (de base a cima) son: 1) <strong>Fisiológicas</strong>, 2) <strong>Seguridad</strong>, 3) <strong>Sociales</strong> (afiliación), 4) <strong>Estima</strong> (reconocimiento), 5) <strong>Autorrealización</strong>. Los demás (económicas, felicidad, logro, productividad, liderazgo) son distractores.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(4%)</strong> Indicar las 4 etapas del ciclo motivacional (1, 2, 3, 4).</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>1)</strong> Necesidad (privación que genera tensión). <strong>2)</strong> Impulso (motivo que moviliza a actuar). <strong>3)</strong> Acciones (conducta dirigida a alcanzar la meta). <strong>4)</strong> Satisfacción (la necesidad se satisface y el impulso disminuye).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(5%)</strong> Indicar cuáles son los 5 estilos de liderazgo de la rejilla (Managerial Grid) de Blake & Mouton (de la lista): Empobrecida (1,1), Carismático, Club campestre (1,9), Transformacional, Mitad de camino (5,5), Laissez-faire, Tareas y eficiencia (9,1), Servicial, Equipo (9,9), Burocrático.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Los 5 estilos correctos son: <strong>Administración empobrecida (1,1)</strong>, <strong>Club campestre (1,9)</strong>, <strong>Mitad del camino (5,5)</strong>, <strong>Tareas y eficiencia (9,1)</strong>, <strong>Administración en equipo (9,9)</strong>. Los demás (carismático, transformacional, laissez-faire, servicial, burocrático) son estilos de otros modelos.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(6%)</strong> Indicar cuáles son actividades primarias y cuáles de soporte en la cadena de valor de Porter.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Primarias</strong>: Logística interna, Operaciones, Logística externa, Marketing y ventas, Servicios posventa. <strong>De soporte</strong>: Infraestructura de la empresa, Gestión de recursos humanos, Desarrollo de tecnología, Compras (abastecimiento).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(15%)</strong> Describir el Balanced Scorecard y sus 4 perspectivas.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">El <strong>Balanced Scorecard</strong> (Cuadro de Mando Integral) es una herramienta de control estratégico que traduce la visión y estrategia de la empresa en un conjunto coherente de indicadores. Sus 4 perspectivas: 1) <strong>Financiera</strong> (rentabilidad, ingresos, costos). 2) <strong>Cliente</strong> (satisfacción, retención, cuota de mercado). 3) <strong>Procesos internos</strong> (calidad, eficiencia operativa). 4) <strong>Aprendizaje y crecimiento</strong> (capacitación, cultura, innovación). Es "balanceado" porque evita mirar solo lo financiero, considerando también el futuro de la organización.</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(15%)</strong> Explicar el modelo FODA: sus 4 componentes y cómo se utiliza para formular estrategia.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>FODA</strong> es una metodología de análisis competitivo. Cuatro componentes: factores <em>internos</em> — <strong>F</strong>ortalezas (atributos que dan ventaja) y <strong>D</strong>ebilidades (atributos en desventaja); factores <em>externos</em> — <strong>O</strong>portunidades (factores aprovechables del entorno) y <strong>A</strong>menazas (factores que perjudican). <strong>Uso para estrategia:</strong> usar fortalezas para aprovechar oportunidades (FO), superar debilidades aprovechando oportunidades (DO), usar fortalezas para mitigar amenazas (FA), reducir debilidades y evitar amenazas (DA).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(15%)</strong> Describir 3 formas de mejorar la productividad de una organización, con un ejemplo de cada una.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden">Recordando que Productividad = Salidas / Entradas, las 3 formas son: 1) <strong>Producir más con los mismos recursos</strong> (ej: capacitar al equipo para que produzca más unidades en la misma jornada). 2) <strong>Producir lo mismo con menos recursos</strong> (ej: automatizar una tarea para reducir horas-hombre y mantener el mismo output). 3) <strong>Producir mucho más con menos recursos</strong> — la ideal (ej: rediseñar el proceso eliminando tiempos muertos y cuellos de botella, como en el caso del montacargas del apunte donde se perdía 25% del tiempo).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(15%)</strong> Explicar las 5 fases del ciclo DMAIC de Six Sigma.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>D</strong>efinir: el problema, alcance y objetivos del proyecto de mejora. <strong>M</strong>edir: el desempeño actual con datos cuantitativos. <strong>A</strong>nalizar: la causa raíz de los defectos o variabilidad. <strong>I</strong>mprove (Mejorar): diseñar e implementar las soluciones. <strong>C</strong>ontrolar: sostener la mejora con monitoreo continuo. La meta de Six Sigma es no más de 3,4 defectos por millón de oportunidades (eficiencia del 99,9996%).</div>
+</div>
+
+<div class="parcial-card">
+  <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(15%)</strong> ¿Qué es delegar correctamente y por qué no es lo mismo que "pasar trabajo"? Dar un ejemplo.</p>
+  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="fc-respuesta hidden"><strong>Delegar</strong> es asignar autoridad y responsabilidad a otra persona para que decida y actúe en una tarea o área. NO es "pasar trabajo" porque implica empoderar (dar capacidad real de decisión) y desarrollar al colaborador, no solo descargar tareas. <strong>Ejemplo</strong>: un gerente que le pide a su asistente "armá el reporte mensual como te lo pasé" está pasando trabajo. En cambio, "te encargo el reporte mensual: tenés autonomía para definir el formato, los indicadores y proponer mejoras; me presentás cualquier cambio relevante" es delegar — el asistente asume responsabilidad y desarrolla criterio propio.</div>
+</div>
+
+    </div>
+  </div>
+</section>
+
 <section id="sec-flashcards" class="section">
   <div class="apunte-header">
     <h1>★ Flashcards — Modo Estudio</h1>
@@ -18015,6 +18339,25 @@ function resetFlashcards(apunteId, total) {
   });
   const badge = document.getElementById('fc-progress-' + apunteId);
   if (badge) badge.textContent = '0 / ' + total + ' reveladas';
+}
+
+function revelarParcial(btn) {
+  const card = btn.closest('.parcial-card');
+  if (!card || card.dataset.revealed) return;
+  card.dataset.revealed = '1';
+  const resp = card.querySelector('.fc-respuesta');
+  if (resp) resp.classList.remove('hidden');
+  btn.classList.add('revealed');
+  btn.textContent = '✓ Respuesta revelada';
+  btn.disabled = true;
+}
+
+function mostrarParcial(num, btn) {
+  document.querySelectorAll('.parcial-block').forEach(b => b.classList.add('hidden'));
+  const block = document.getElementById('parcial-' + num);
+  if (block) block.classList.remove('hidden');
+  document.querySelectorAll('.parcial-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 }
 
 function filterNav(q) {
