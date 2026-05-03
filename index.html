@@ -415,6 +415,120 @@ body {
 }
 .fc-aggr-resp.hidden { display: none; }
 
+/* === Marcado bien/mal en flashcards agregadas === */
+.fc-aggregated[data-answer="right"] { border-color: var(--green); background: var(--green-bg); }
+.fc-aggregated[data-answer="wrong"] { border-color: var(--red); background: var(--red-bg); }
+
+.fc-aggr-mark {
+  display: none;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+  align-items: center;
+}
+.fc-aggregated[data-revealed] .fc-aggr-mark { display: flex; }
+.fc-aggr-mark-label {
+  font-size: 12.5px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.btn-mark {
+  padding: 6px 12px;
+  border-radius: 7px;
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 12.5px;
+  font-family: var(--font);
+  font-weight: 500;
+  transition: all .12s;
+}
+.btn-mark-good { border: 1px solid var(--green); color: var(--green); }
+.btn-mark-good:hover, .btn-mark-good.active { background: var(--green); color: #fff; }
+.btn-mark-bad { border: 1px solid var(--red); color: var(--red); }
+.btn-mark-bad:hover, .btn-mark-bad.active { background: var(--red); color: #fff; }
+
+.score-badge.good { background: var(--green-bg); color: var(--green); }
+.score-badge.bad { background: var(--red-bg); color: var(--red); }
+
+/* === Resumen de respuestas incorrectas === */
+.fc-wrong-summary {
+  margin-top: 32px;
+  padding: 20px 22px;
+  border: 1px solid var(--red);
+  border-radius: 10px;
+  background: var(--red-bg);
+}
+.fc-wrong-summary.hidden { display: none; }
+.fc-wrong-summary h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 4px;
+}
+.fc-wrong-summary .subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.fc-wrong-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.fc-wrong-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.fc-wrong-section-header h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+}
+.fc-wrong-section-header .fc-wrong-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--red);
+  background: var(--red-bg);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.fc-wrong-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 6px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  border-bottom: 1px dashed var(--border);
+}
+.fc-wrong-item:last-child { border-bottom: none; }
+.fc-wrong-item .fc-aggr-num { font-size: 12.5px; }
+.fc-wrong-item-text { flex: 1; }
+.fc-wrong-item-link {
+  font-size: 12px;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.fc-wrong-item-link:hover { text-decoration: underline; }
+.fc-wrong-empty {
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
 @media (max-width: 900px) {
   .flashcards-study { padding-left: 20px; padding-right: 20px; }
 }
@@ -17754,14 +17868,24 @@ Verificaciones formales y sistemáticas.<br />
   </div>
   <div class="flashcards-study">
     <div class="fc-aggr-toolbar">
-      <span class="score-badge" id="fc-aggr-progress">0 reveladas</span>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+        <span class="score-badge" id="fc-aggr-progress">0 reveladas</span>
+        <span class="score-badge good" id="fc-aggr-good">0 bien</span>
+        <span class="score-badge bad" id="fc-aggr-bad">0 mal</span>
+      </div>
       <div class="quiz-meta">
         <button class="btn-reset" onclick="resetAggregatedFlashcards()">↺ Ocultar todas</button>
         <button class="btn-reset" onclick="revealAllAggregatedFlashcards()">👁 Mostrar todas</button>
+        <button class="btn-reset" onclick="resetFlashcardMarks()">✕ Limpiar marcas</button>
       </div>
     </div>
     <div class="fc-aggr-filters" id="fc-aggr-filters"></div>
     <div id="flashcards-aggregated"></div>
+    <div id="fc-wrong-summary" class="fc-wrong-summary hidden">
+      <h2>📚 Resumen — Lo que necesitás repasar</h2>
+      <p class="subtitle">Estas son las preguntas que marcaste como respondidas incorrectamente, agrupadas por unidad. Usá los enlaces para abrir el apunte y reforzar esos temas.</p>
+      <div id="fc-wrong-summary-list"></div>
+    </div>
   </div>
 </section>
 
@@ -18005,9 +18129,27 @@ function buildAggregatedFlashcards() {
       resp.className = 'fc-aggr-resp hidden';
       resp.innerHTML = respEl ? respEl.innerHTML : '';
 
+      const mark = document.createElement('div');
+      mark.className = 'fc-aggr-mark';
+      const markLabel = document.createElement('span');
+      markLabel.className = 'fc-aggr-mark-label';
+      markLabel.textContent = '¿Cómo respondiste?';
+      const goodBtn = document.createElement('button');
+      goodBtn.className = 'btn-mark btn-mark-good';
+      goodBtn.textContent = '✓ Bien';
+      goodBtn.onclick = (e) => { e.stopPropagation(); markFlashcardAnswer(fcId, 'right'); };
+      const badBtn = document.createElement('button');
+      badBtn.className = 'btn-mark btn-mark-bad';
+      badBtn.textContent = '✗ Mal';
+      badBtn.onclick = (e) => { e.stopPropagation(); markFlashcardAnswer(fcId, 'wrong'); };
+      mark.appendChild(markLabel);
+      mark.appendChild(goodBtn);
+      mark.appendChild(badBtn);
+
       card.appendChild(qDiv);
       card.appendChild(actions);
       card.appendChild(resp);
+      card.appendChild(mark);
       group.appendChild(card);
     });
 
@@ -18019,7 +18161,9 @@ function buildAggregatedFlashcards() {
   container.innerHTML = '';
   container.appendChild(groupsFrag);
   container.dataset.built = '1';
+  applyStoredFlashcardMarks();
   updateAggregatedProgress();
+  buildWrongSummary();
 }
 
 function toggleAggregatedAnswer(fcId) {
@@ -18042,8 +18186,142 @@ function toggleAggregatedAnswer(fcId) {
 function updateAggregatedProgress() {
   const all = document.querySelectorAll('#flashcards-aggregated .fc-aggregated').length;
   const revealed = document.querySelectorAll('#flashcards-aggregated .fc-aggregated[data-revealed]').length;
+  const good = document.querySelectorAll('#flashcards-aggregated .fc-aggregated[data-answer="right"]').length;
+  const bad = document.querySelectorAll('#flashcards-aggregated .fc-aggregated[data-answer="wrong"]').length;
   const badge = document.getElementById('fc-aggr-progress');
   if (badge) badge.textContent = revealed + ' / ' + all + ' reveladas';
+  const goodBadge = document.getElementById('fc-aggr-good');
+  if (goodBadge) goodBadge.textContent = good + ' bien';
+  const badBadge = document.getElementById('fc-aggr-bad');
+  if (badBadge) badBadge.textContent = bad + ' mal';
+}
+
+const FC_MARKS_KEY = 'fc-answer-marks-v1';
+
+function loadFlashcardMarks() {
+  try {
+    const raw = localStorage.getItem(FC_MARKS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+function saveFlashcardMarks(marks) {
+  try { localStorage.setItem(FC_MARKS_KEY, JSON.stringify(marks)); } catch (e) {}
+}
+
+function applyStoredFlashcardMarks() {
+  const marks = loadFlashcardMarks();
+  Object.keys(marks).forEach(fcId => {
+    const card = document.querySelector('.fc-aggregated[data-fc-id="' + fcId + '"]');
+    if (!card) return;
+    const status = marks[fcId];
+    card.dataset.answer = status;
+    refreshMarkButtons(card, status);
+  });
+}
+
+function refreshMarkButtons(card, status) {
+  const goodBtn = card.querySelector('.btn-mark-good');
+  const badBtn = card.querySelector('.btn-mark-bad');
+  if (goodBtn) goodBtn.classList.toggle('active', status === 'right');
+  if (badBtn) badBtn.classList.toggle('active', status === 'wrong');
+}
+
+function markFlashcardAnswer(fcId, status) {
+  const card = document.querySelector('.fc-aggregated[data-fc-id="' + fcId + '"]');
+  if (!card) return;
+  const marks = loadFlashcardMarks();
+  if (card.dataset.answer === status) {
+    delete card.dataset.answer;
+    delete marks[fcId];
+  } else {
+    card.dataset.answer = status;
+    marks[fcId] = status;
+  }
+  saveFlashcardMarks(marks);
+  refreshMarkButtons(card, card.dataset.answer);
+  updateAggregatedProgress();
+  buildWrongSummary();
+}
+
+function resetFlashcardMarks() {
+  if (!confirm('¿Borrar todas las marcas de bien/mal?')) return;
+  saveFlashcardMarks({});
+  document.querySelectorAll('#flashcards-aggregated .fc-aggregated').forEach(c => {
+    delete c.dataset.answer;
+    refreshMarkButtons(c, null);
+  });
+  updateAggregatedProgress();
+  buildWrongSummary();
+}
+
+function buildWrongSummary() {
+  const summary = document.getElementById('fc-wrong-summary');
+  const list = document.getElementById('fc-wrong-summary-list');
+  if (!summary || !list) return;
+
+  const wrongCards = Array.from(document.querySelectorAll('#flashcards-aggregated .fc-aggregated[data-answer="wrong"]'));
+  if (!wrongCards.length) {
+    summary.classList.add('hidden');
+    list.innerHTML = '';
+    return;
+  }
+  summary.classList.remove('hidden');
+
+  const bySection = new Map();
+  wrongCards.forEach(card => {
+    const sectionId = card.dataset.section;
+    if (!bySection.has(sectionId)) bySection.set(sectionId, []);
+    bySection.get(sectionId).push(card);
+  });
+
+  const frag = document.createDocumentFragment();
+  bySection.forEach((cards, sectionId) => {
+    const navLink = document.querySelector('.nav-list a[data-id="' + sectionId + '"]');
+    const sectionTitle = navLink ? navLink.textContent.trim() : ('Apunte ' + sectionId);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'fc-wrong-section';
+
+    const header = document.createElement('div');
+    header.className = 'fc-wrong-section-header';
+    const h3 = document.createElement('h3');
+    h3.textContent = sectionTitle;
+    const count = document.createElement('span');
+    count.className = 'fc-wrong-count';
+    count.textContent = cards.length + (cards.length === 1 ? ' pregunta' : ' preguntas');
+    header.appendChild(h3);
+    header.appendChild(count);
+    wrap.appendChild(header);
+
+    cards.forEach(card => {
+      const fcId = card.dataset.fcId;
+      const numText = (card.querySelector('.fc-aggr-num') || {}).textContent || '';
+      const qText = (card.querySelector('.fc-aggr-text') || {}).textContent || '';
+
+      const item = document.createElement('div');
+      item.className = 'fc-wrong-item';
+      const numSpan = document.createElement('span');
+      numSpan.className = 'fc-aggr-num';
+      numSpan.textContent = numText;
+      const text = document.createElement('span');
+      text.className = 'fc-wrong-item-text';
+      text.textContent = qText.trim();
+      const link = document.createElement('a');
+      link.className = 'fc-wrong-item-link';
+      link.textContent = 'Ver en el apunte →';
+      link.onclick = (e) => { e.preventDefault(); goToFlashcard(sectionId, fcId); };
+      item.appendChild(numSpan);
+      item.appendChild(text);
+      item.appendChild(link);
+      wrap.appendChild(item);
+    });
+
+    frag.appendChild(wrap);
+  });
+
+  list.innerHTML = '';
+  list.appendChild(frag);
 }
 
 function filterAggregated(filter, btn) {
