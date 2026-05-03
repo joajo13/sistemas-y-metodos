@@ -282,6 +282,143 @@ body {
 }
 .fc-respuesta.hidden { display: none; }
 
+/* === Flashcards: vista agregada (modo estudio) === */
+#sec-flashcards .apunte-header { padding-bottom: 18px; }
+#sec-flashcards .apunte-header .subtitle {
+  color: var(--muted);
+  font-size: 13.5px;
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+.flashcards-study {
+  padding: 18px 48px 48px;
+  max-width: 900px;
+}
+
+.fc-aggr-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
+.fc-aggr-toolbar .quiz-meta { display: flex; align-items: center; gap: 10px; }
+
+.fc-aggr-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 24px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.fc-filter-btn {
+  padding: 5px 11px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12.5px;
+  font-family: var(--font);
+  font-weight: 500;
+  transition: all .12s;
+}
+.fc-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.fc-filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.fc-group { margin-bottom: 32px; }
+.fc-group-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
+}
+.fc-group-header h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+.fc-group-header .fc-count { font-size: 12.5px; color: var(--muted); }
+.fc-group-header .fc-go-section {
+  color: var(--accent);
+  cursor: pointer;
+  margin-left: 6px;
+  font-weight: 500;
+}
+.fc-group-header .fc-go-section:hover { text-decoration: underline; }
+
+.fc-aggregated {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  transition: border-color .15s, background .15s;
+}
+.fc-aggregated[data-revealed] { border-color: var(--green); }
+.fc-highlight { background: #fef3c7 !important; border-color: var(--yellow-border) !important; box-shadow: 0 0 0 3px rgba(245,158,11,0.25); transition: background .3s, box-shadow .3s, border-color .3s; }
+
+.fc-aggr-q {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.fc-aggr-num {
+  color: var(--accent);
+  font-weight: 700;
+  min-width: 32px;
+  flex-shrink: 0;
+}
+.fc-aggr-text { flex: 1; }
+
+.fc-aggr-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.fc-aggr-reveal {
+  padding: 6px 12px;
+  font-size: 12.5px;
+}
+.fc-link-source {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12.5px;
+  font-family: var(--font);
+  font-weight: 500;
+  transition: border-color .12s, color .12s;
+}
+.fc-link-source:hover { border-color: var(--accent); color: var(--accent); }
+
+.fc-aggr-resp {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 7px;
+  background: var(--green-bg);
+  border: 1px solid var(--green);
+  color: #15803d;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.fc-aggr-resp.hidden { display: none; }
+
+@media (max-width: 900px) {
+  .flashcards-study { padding-left: 20px; padding-right: 20px; }
+}
+
 #sec-indice { padding: 40px 48px; max-width: 900px; }
 #sec-indice h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
 #sec-indice .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
@@ -445,6 +582,7 @@ body {
 <li><a href="#" onclick="showSection('16')" data-id="16"><span class="nav-num">16.</span> Proceso Administrativo y Optimización</a></li>
 <li><a href="#" onclick="showSection('03')" data-id="03"><span class="nav-num">3.</span> Teoría General de los Sistemas</a></li>
 <li><a href="#" onclick="showSection('02')" data-id="02"><span class="nav-num">2.</span> Intro a la TGS y la Tecnología</a></li>
+<li><a href="#" onclick="showSection('flashcards')" data-id="flashcards"><span class="nav-num">★</span> Flashcards (estudio)</a></li>
 <li><a href="#" onclick="showSection('mapa-mental')" data-id="mapa-mental"><span class="nav-num">★</span> Mapa Mental</a></li>
 
   </ul>
@@ -525,6 +663,10 @@ body {
 <tr>
   <td><a class="link-apunte" onclick="showSection('02')">2. Intro a la TGS y la Tecnología</a></td>
   <td><span class="badge-q">30</span></td>
+</tr>
+<tr>
+  <td><a class="link-apunte" onclick="showSection('flashcards')"><strong>★ Flashcards — Modo estudio</strong></a></td>
+  <td><span class="badge-q">todas</span></td>
 </tr>
 <tr>
   <td><a class="link-apunte" onclick="showSection('mapa-mental')"><strong>★ Mapa Mental — Repaso global</strong></a></td>
@@ -17605,6 +17747,24 @@ Verificaciones formales y sistemáticas.<br />
   </div>
 </section>
 
+<section id="sec-flashcards" class="section">
+  <div class="apunte-header">
+    <h1>★ Flashcards — Modo Estudio</h1>
+    <p class="subtitle">Todas las preguntas abiertas agrupadas por unidad. Tocá la pregunta o el botón para revelar la respuesta. Usá <strong>"Ver en el apunte"</strong> para abrir el contenido relacionado y leer un poco más.</p>
+  </div>
+  <div class="flashcards-study">
+    <div class="fc-aggr-toolbar">
+      <span class="score-badge" id="fc-aggr-progress">0 reveladas</span>
+      <div class="quiz-meta">
+        <button class="btn-reset" onclick="resetAggregatedFlashcards()">↺ Ocultar todas</button>
+        <button class="btn-reset" onclick="revealAllAggregatedFlashcards()">👁 Mostrar todas</button>
+      </div>
+    </div>
+    <div class="fc-aggr-filters" id="fc-aggr-filters"></div>
+    <div id="flashcards-aggregated"></div>
+  </div>
+</section>
+
 <section id="sec-mapa-mental" class="section">
   <div class="apunte-header">
     <h1>★ Mapa Mental — Repaso Global</h1>
@@ -17644,6 +17804,7 @@ function showSection(id) {
   if (navLink) navLink.classList.add('active');
   if (window.innerWidth <= 900) document.getElementById('sidebar').classList.remove('open');
   if (id === 'mapa-mental') initMindmap();
+  if (id === 'flashcards') buildAggregatedFlashcards();
 }
 
 function responder(apunteId, qNum, letra) {
@@ -17740,6 +17901,191 @@ function filterNav(q) {
 }
 
 function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+/* ===========================================================
+   FLASHCARDS — Vista agregada (modo estudio)
+   =========================================================== */
+
+function buildAggregatedFlashcards() {
+  const container = document.getElementById('flashcards-aggregated');
+  const filtersBar = document.getElementById('fc-aggr-filters');
+  if (!container || container.dataset.built === '1') return;
+
+  const navLinks = Array.from(document.querySelectorAll('.nav-list a[data-id]'))
+    .filter(a => /^\d+$/.test(a.dataset.id))
+    .map(a => ({ id: a.dataset.id, title: a.textContent.trim() }));
+
+  const groupsFrag = document.createDocumentFragment();
+  const filtersFrag = document.createDocumentFragment();
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'fc-filter-btn active';
+  allBtn.textContent = 'Todas';
+  allBtn.onclick = () => filterAggregated('all', allBtn);
+  filtersFrag.appendChild(allBtn);
+
+  navLinks.forEach(({ id, title }) => {
+    const section = document.getElementById('sec-' + id);
+    if (!section) return;
+    const fcs = section.querySelectorAll('.flashcard-container .flashcard');
+    if (!fcs.length) return;
+
+    const filterBtn = document.createElement('button');
+    filterBtn.className = 'fc-filter-btn';
+    filterBtn.textContent = id;
+    filterBtn.title = title;
+    filterBtn.onclick = () => filterAggregated(id, filterBtn);
+    filtersFrag.appendChild(filterBtn);
+
+    const group = document.createElement('div');
+    group.className = 'fc-group';
+    group.dataset.section = id;
+
+    const header = document.createElement('div');
+    header.className = 'fc-group-header';
+    const h3 = document.createElement('h3');
+    h3.textContent = title;
+    const count = document.createElement('span');
+    count.className = 'fc-count';
+    count.textContent = fcs.length + ' flashcards';
+    const goLink = document.createElement('a');
+    goLink.className = 'fc-go-section';
+    goLink.textContent = 'Ir al apunte →';
+    goLink.onclick = () => showSection(id);
+    count.appendChild(document.createTextNode(' · '));
+    count.appendChild(goLink);
+    header.appendChild(h3);
+    header.appendChild(count);
+    group.appendChild(header);
+
+    fcs.forEach(fc => {
+      const fcId = fc.id;
+      const qEl = fc.querySelector('.fc-pregunta');
+      const respEl = fc.querySelector('.fc-respuesta');
+      if (!qEl) return;
+
+      const qNumEl = qEl.querySelector('.q-num');
+      const num = qNumEl ? qNumEl.textContent.trim() : '';
+      const qClone = qEl.cloneNode(true);
+      const cloneNum = qClone.querySelector('.q-num');
+      if (cloneNum) cloneNum.remove();
+
+      const card = document.createElement('div');
+      card.className = 'fc-aggregated';
+      card.dataset.fcId = fcId;
+      card.dataset.section = id;
+
+      const qDiv = document.createElement('div');
+      qDiv.className = 'fc-aggr-q';
+      qDiv.onclick = () => toggleAggregatedAnswer(fcId);
+      const numSpan = document.createElement('span');
+      numSpan.className = 'fc-aggr-num';
+      numSpan.textContent = num;
+      const textSpan = document.createElement('span');
+      textSpan.className = 'fc-aggr-text';
+      textSpan.innerHTML = qClone.innerHTML.trim();
+      qDiv.appendChild(numSpan);
+      qDiv.appendChild(textSpan);
+
+      const actions = document.createElement('div');
+      actions.className = 'fc-aggr-actions';
+      const revealBtn = document.createElement('button');
+      revealBtn.className = 'btn-reveal fc-aggr-reveal';
+      revealBtn.textContent = 'Mostrar respuesta';
+      revealBtn.onclick = (e) => { e.stopPropagation(); toggleAggregatedAnswer(fcId); };
+      const sourceBtn = document.createElement('button');
+      sourceBtn.className = 'fc-link-source';
+      sourceBtn.textContent = '↗ Ver en el apunte';
+      sourceBtn.title = 'Abrir el apunte y resaltar esta flashcard';
+      sourceBtn.onclick = (e) => { e.stopPropagation(); goToFlashcard(id, fcId); };
+      actions.appendChild(revealBtn);
+      actions.appendChild(sourceBtn);
+
+      const resp = document.createElement('div');
+      resp.className = 'fc-aggr-resp hidden';
+      resp.innerHTML = respEl ? respEl.innerHTML : '';
+
+      card.appendChild(qDiv);
+      card.appendChild(actions);
+      card.appendChild(resp);
+      group.appendChild(card);
+    });
+
+    groupsFrag.appendChild(group);
+  });
+
+  filtersBar.innerHTML = '';
+  filtersBar.appendChild(filtersFrag);
+  container.innerHTML = '';
+  container.appendChild(groupsFrag);
+  container.dataset.built = '1';
+  updateAggregatedProgress();
+}
+
+function toggleAggregatedAnswer(fcId) {
+  const card = document.querySelector('.fc-aggregated[data-fc-id="' + fcId + '"]');
+  if (!card) return;
+  const resp = card.querySelector('.fc-aggr-resp');
+  const btn = card.querySelector('.fc-aggr-reveal');
+  if (card.dataset.revealed) {
+    delete card.dataset.revealed;
+    if (resp) resp.classList.add('hidden');
+    if (btn) { btn.classList.remove('revealed'); btn.textContent = 'Mostrar respuesta'; }
+  } else {
+    card.dataset.revealed = '1';
+    if (resp) resp.classList.remove('hidden');
+    if (btn) { btn.classList.add('revealed'); btn.textContent = '✓ Ocultar respuesta'; }
+  }
+  updateAggregatedProgress();
+}
+
+function updateAggregatedProgress() {
+  const all = document.querySelectorAll('#flashcards-aggregated .fc-aggregated').length;
+  const revealed = document.querySelectorAll('#flashcards-aggregated .fc-aggregated[data-revealed]').length;
+  const badge = document.getElementById('fc-aggr-progress');
+  if (badge) badge.textContent = revealed + ' / ' + all + ' reveladas';
+}
+
+function filterAggregated(filter, btn) {
+  document.querySelectorAll('.fc-aggr-filters .fc-filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  document.querySelectorAll('#flashcards-aggregated .fc-group').forEach(g => {
+    g.style.display = (filter === 'all' || g.dataset.section === filter) ? '' : 'none';
+  });
+}
+
+function resetAggregatedFlashcards() {
+  document.querySelectorAll('#flashcards-aggregated .fc-aggregated').forEach(c => {
+    delete c.dataset.revealed;
+    const resp = c.querySelector('.fc-aggr-resp');
+    const btn = c.querySelector('.fc-aggr-reveal');
+    if (resp) resp.classList.add('hidden');
+    if (btn) { btn.classList.remove('revealed'); btn.textContent = 'Mostrar respuesta'; }
+  });
+  updateAggregatedProgress();
+}
+
+function revealAllAggregatedFlashcards() {
+  document.querySelectorAll('#flashcards-aggregated .fc-aggregated').forEach(c => {
+    c.dataset.revealed = '1';
+    const resp = c.querySelector('.fc-aggr-resp');
+    const btn = c.querySelector('.fc-aggr-reveal');
+    if (resp) resp.classList.remove('hidden');
+    if (btn) { btn.classList.add('revealed'); btn.textContent = '✓ Ocultar respuesta'; }
+  });
+  updateAggregatedProgress();
+}
+
+function goToFlashcard(sectionId, fcId) {
+  showSection(sectionId);
+  setTimeout(() => {
+    const target = document.getElementById(fcId);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    target.classList.add('fc-highlight');
+    setTimeout(() => target.classList.remove('fc-highlight'), 1800);
+  }, 60);
+}
 
 /* ===========================================================
    MAPA MENTAL — Repaso global de Sistemas y Métodos
