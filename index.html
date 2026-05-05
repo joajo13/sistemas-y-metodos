@@ -341,6 +341,47 @@ body {
   transition: border-color .15s;
 }
 .parcial-card[data-revealed] { border-color: var(--green); }
+.parcial-card[data-answer="right"] { border-color: var(--green); background: var(--green-bg); }
+.parcial-card[data-answer="wrong"] { border-color: var(--red); background: var(--red-bg); }
+
+.parcial-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.parcial-mark {
+  display: none;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+.parcial-card[data-revealed] .parcial-mark { display: flex; }
+
+.parciales-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+.parciales-toolbar .quiz-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+.parcial-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 22px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: .02em;
+}
 
 /* === Flashcards: vista agregada (modo estudio) === */
 #sec-flashcards .apunte-header { padding-bottom: 18px; }
@@ -845,7 +886,7 @@ body {
 </tr>
 <tr>
   <td><a class="link-apunte" onclick="showSection('parciales')"><strong>★ Parciales — Práctica de examen</strong></a></td>
-  <td><span class="badge-q">3 simulacros</span></td>
+  <td><span class="badge-q">4 parciales</span></td>
 </tr>
 <tr>
   <td><a class="link-apunte" onclick="showSection('mapa-mental')"><strong>★ Mapa Mental — Repaso global</strong></a></td>
@@ -17965,80 +18006,170 @@ Verificaciones formales y sistemáticas.<br />
 <section id="sec-parciales" class="section">
   <div class="apunte-header">
     <h1>★ Parciales — Práctica de examen</h1>
-    <p class="subtitle">Tres exámenes simulados con consignas, peso porcentual y respuestas reveladas. <strong>Parcial 1</strong> es la réplica del parcial real (28-04-2026); <strong>Parciales 2 y 3</strong> son simulacros con consignas similares sobre otros temas del apunte.</p>
+    <p class="subtitle">Cuatro exámenes para practicar. Hacé click en <strong>"Mostrar respuesta"</strong> sólo después de intentar resolver. Marcá cada consigna como <span style="color:var(--green); font-weight:600;">✓ Bien</span> o <span style="color:var(--red); font-weight:600;">✗ Mal</span> y usá <strong>↗ Ver en el apunte</strong> para repasar el tema directamente. Las marcas se guardan en tu navegador.</p>
   </div>
 
   <div class="parciales-tabs">
-    <button class="parcial-tab active" onclick="mostrarParcial('1', this)">Parcial 1 — Réplica real</button>
+    <button class="parcial-tab active" onclick="mostrarParcial('1', this)">Parcial 1 — Tema A (real)</button>
     <button class="parcial-tab" onclick="mostrarParcial('2', this)">Parcial 2 — Simulacro</button>
     <button class="parcial-tab" onclick="mostrarParcial('3', this)">Parcial 3 — Simulacro</button>
+    <button class="parcial-tab" onclick="mostrarParcial('4', this)">Parcial 4 — Tema B (real)</button>
+  </div>
+
+  <div class="parciales-toolbar" style="padding: 10px 48px 16px; max-width: 900px;">
+    <div class="quiz-meta">
+      <span class="score-badge" id="parciales-progress">0 / 0 reveladas</span>
+      <span class="score-badge good" id="parciales-good">0 bien</span>
+      <span class="score-badge bad" id="parciales-bad">0 mal</span>
+    </div>
+    <button class="btn-reset" onclick="resetParcialMarks()">✕ Limpiar marcas del parcial</button>
   </div>
 
   <div class="parcial-block" id="parcial-1">
     <div class="parcial-header">
-      <h2>Parcial Nº 1 — 28-04-2026 (réplica)</h2>
-      <p class="subtitle">10 consignas, peso total 100%. Mostrá la respuesta para verificar tu solución.</p>
+      <h2>Parcial Nº 1 — 28-04-2026 (réplica, Tema A)</h2>
+      <p class="subtitle">10 consignas, peso total 100%. Intentá responder antes de revelar; después marcá bien o mal y usá el link al apunte para repasar.</p>
     </div>
     <div class="parciales-list">
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q1" data-section="05">
   <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(2%)</strong> "En una empresa, las personas se dedican a una actividad específica y se agrupan en una unidad o área, como ser: Finanzas, Operaciones, Sistemas, Marketing, etc." Nos referimos a la estructura organizacional del tipo: Lineal, Por producto, Matricial, Funcional o Por mercado.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
-  <div class="fc-respuesta hidden"><strong>Funcional</strong>. Es la estructura que agrupa empleados por función o especialidad (Finanzas, Marketing, Operaciones, RRHH). Ventaja: especialización. Desventaja: silos entre departamentos.</div>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Funcional</strong>. Estructura que agrupa empleados por función o especialidad. Ventaja: especialización. Desventaja: silos entre departamentos.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q2" data-section="10">
   <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(8%)</strong> Indicar cuáles son características de equipos de alto desempeño, sinérgicos y exitosos: Visión parcial, Sin liderazgo, Participación, Individualidad, Competencia interna, Visión compartida, Comunicación, Autogestión, Escucha activa, Micro-management, Priorizar la velocidad, Metodológicos, Diseño, Consenso, Calidad.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Características <strong>correctas</strong>: Participación, Visión compartida, Comunicación, Autogestión, Escucha activa, Metodológicos, Diseño, Consenso y Calidad. <strong>NO</strong> son características: Visión parcial, Sin liderazgo, Individualidad, Competencia interna, Micro-management y Priorizar la velocidad.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q3" data-section="12">
   <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(4%)</strong> El liderazgo es un proceso que guía a un grupo de personas para alcanzar objetivos comunes. Se basa en ciertas capacidades del líder para desarrollar el potencial del grupo y contribuir al éxito colectivo. Indicar cuáles son esas capacidades (A, B, C, D).</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>A) Comunicación:</strong> transmitir la visión y dar feedback claro. <strong>B) Motivación:</strong> canalizar y sostener la conducta del grupo hacia las metas. <strong>C) Delegación:</strong> asignar autoridad y responsabilidad para empoderar a los miembros. <strong>D) Toma de decisiones:</strong> definir el rumbo frente a alternativas y resolver problemas. (Se complementan con la negociación frente a conflictos.)</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q4" data-section="13">
   <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(5%)</strong> Indicar cuáles son las 5 fuerzas de Porter (de la lista: Poder de negociación de los proveedores, Amenaza de nuevos competidores, Rivalidad entre clientes existentes, Amenaza de productos sustitutos, Rivalidad entre competidores existentes, Amenaza de nuevos clientes, Poder de negociación de los competidores, Amenaza de nuevos proveedores, Rivalidad entre productos sustitutos, Poder de negociación de los compradores).</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
-  <div class="fc-respuesta hidden">Las 5 fuerzas correctas son: 1) <strong>Poder de negociación de los proveedores</strong>, 2) <strong>Amenaza de nuevos competidores</strong>, 3) <strong>Amenaza de productos sustitutos</strong>, 4) <strong>Rivalidad entre competidores existentes</strong>, 5) <strong>Poder de negociación de los compradores</strong> (clientes). Las demás opciones son trampas (rivalidad entre clientes, poder de los competidores, amenaza de proveedores, etc.).</div>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden">Las 5 fuerzas correctas son: 1) <strong>Poder de negociación de los proveedores</strong>, 2) <strong>Amenaza de nuevos competidores</strong>, 3) <strong>Amenaza de productos sustitutos</strong>, 4) <strong>Rivalidad entre competidores existentes</strong>, 5) <strong>Poder de negociación de los compradores</strong> (clientes). Las demás opciones son trampas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q5" data-section="16">
   <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(6%)</strong> Indicar qué aspectos se tratan en el estudio de métodos y cuáles en el estudio de tiempos.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
-  <div class="fc-respuesta hidden"><strong>Estudio de métodos:</strong> Diseño y reingeniería de procesos, Análisis de tareas, Estandarización con mejores prácticas. <strong>Estudio de tiempos:</strong> Identificación de cuellos de botella, Medición de tiempos, Establecimiento de estándares de tiempo, Cronometraje de actividades. (Distractores en la lista: Relación con el mercado, Descentralización, Segregación de funciones, Planificación por estimado a completar, Miniaturización — ninguno corresponde a estos estudios.)</div>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Estudio de métodos:</strong> Diseño y reingeniería de procesos, Análisis de tareas, Estandarización con mejores prácticas. <strong>Estudio de tiempos:</strong> Identificación de cuellos de botella, Medición de tiempos, Establecimiento de estándares de tiempo, Cronometraje de actividades.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q6" data-section="15">
   <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(15%)</strong> Describir brevemente las 4 actividades básicas del proceso de administración (PODC).</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>P</strong>lanificar: definir objetivos y trazar el camino para alcanzarlos. <strong>O</strong>rganizar: asignar recursos, dividir tareas y diseñar la estructura para ejecutar el plan. <strong>D</strong>irigir: liderar, motivar y comunicar al equipo para que ejecute lo planeado. <strong>C</strong>ontrolar: medir resultados reales contra lo planificado y aplicar correcciones para mantener el rumbo. Es un ciclo continuo: el control retroalimenta la planificación.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q7" data-section="10">
   <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(15%)</strong> Describir brevemente las "5C" del trabajo en equipo.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><em>Tema fuera del apunte oficial — consultar bibliografía complementaria. La versión más difundida del modelo "5C" sostiene que un buen equipo se basa en: <strong>Confianza</strong> (creer en el otro y en el equipo), <strong>Compromiso</strong> (dedicación a la meta común), <strong>Comunicación</strong> (intercambio claro y honesto), <strong>Coordinación</strong> (sincronización de esfuerzos) y <strong>Complementariedad</strong> (habilidades distintas que se suman).</em></div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q8" data-section="12">
   <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(15%)</strong> Describir las teorías de la motivación "X" e "Y" de McGregor.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><em>Tema fuera del apunte oficial — consultar bibliografía complementaria. La <strong>Teoría X</strong> de McGregor asume que las personas son perezosas, evitan el trabajo y necesitan control, supervisión estricta y amenazas para producir (estilo autoritario). La <strong>Teoría Y</strong> asume que las personas se autodirigen, buscan responsabilidad, son creativas y trabajan con compromiso si encuentran sentido en lo que hacen (estilo participativo). McGregor proponía que los gerentes adoptaran la Teoría Y para liberar el potencial humano.</em></div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q9" data-section="14">
   <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(15%)</strong> Describir brevemente los aspectos importantes que brinda el control de gestión en una organización o empresa.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">i) Verifica el cumplimiento de los objetivos definidos en la planificación. ii) Mide el desempeño real con indicadores (KPIs, Balanced Scorecard, balance, estado de resultados). iii) Detecta desvíos entre lo planeado y lo ejecutado, permitiendo aplicar acciones correctivas. iv) Provee información a la alta dirección para la toma de decisiones. v) Asegura el uso eficiente de los recursos. vi) Cierra el ciclo administrativo (planificar sin controlar es un ejercicio inútil).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p1-q10" data-section="01">
   <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(15%)</strong> ¿Qué es la productividad, la eficacia y la eficiencia, y cómo se relacionan estos conceptos entre sí?</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>Productividad</strong> = salidas / entradas: cuánto se produce con los recursos usados. <strong>Eficacia</strong> = lograr los objetivos correctos ("hacer las cosas que se deben hacer"). <strong>Eficiencia</strong> = lograr el resultado con la menor cantidad de recursos ("hacer las cosas bien"). <strong>Relación:</strong> la productividad alta requiere las dos — ser eficaz (apuntar al objetivo correcto) y eficiente (con pocos recursos). Eficacia sin eficiencia desperdicia recursos; eficiencia sin eficacia hace muy bien lo que no sirve.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
     </div>
@@ -18051,64 +18182,144 @@ Verificaciones formales y sistemáticas.<br />
     </div>
     <div class="parciales-list">
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q1" data-section="05">
   <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(2%)</strong> "En la empresa, los empleados reportan a dos jefes: uno funcional (su área de especialidad) y uno de proyecto. Cada empleado se asigna temporalmente a proyectos según los necesite la organización." Nos referimos a la estructura organizacional del tipo: Lineal, Funcional, Divisional, Matricial, Por producto.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>Matricial</strong>. Combina departamentalización funcional con producto/proyecto. Cada empleado tiene dos jefes (rompe la unidad de mando). Ventajas: flexible, uso eficiente de especialistas. Desventajas: conflictos de poder y de prioridades.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q2" data-section="06">
   <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(8%)</strong> Indicar cuáles son ventajas REALES de la organización informal (de la lista): Mejora la comunicación vía radiopasillo, Genera silos entre departamentos, Satisface necesidades sociales, Genera rumores dañinos, Resuelve problemas ágilmente, Promueve la conformidad por encima del rendimiento, Genera compromiso, Crea resistencia al cambio, Facilita conflictos, Fomenta líderes informales útiles.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Ventajas reales: <strong>Mejora la comunicación vía radiopasillo</strong>, <strong>Satisface necesidades sociales</strong>, <strong>Resuelve problemas ágilmente</strong>, <strong>Genera compromiso</strong>, <strong>Fomenta líderes informales útiles</strong>. Las demás son limitaciones (rumores, resistencia, conformidad, conflictos) o no aplican (silos pertenece a la formal funcional).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q3" data-section="14">
   <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(4%)</strong> El control es la última fase del proceso administrativo y permite asegurar que las actividades reales se ajusten a las planificadas. Indicar las 4 fases del proceso de control (i, ii, iii, iv).</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>i)</strong> Establecer parámetros de medición (indicadores). <strong>ii)</strong> Medir los resultados reales. <strong>iii)</strong> Evaluar el resultado comparándolo con el estándar. <strong>iv)</strong> Retroalimentar tomando medidas correctivas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q4" data-section="04">
   <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(5%)</strong> Indicar cuáles son los 4 elementos clave del diseño organizacional (de la lista): División del trabajo, Liderazgo carismático, Departamentalización, Motivación intrínseca, Jerarquía, Negociación, Coordinación, Innovación, Calidad total, Cadena de valor.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Los 4 elementos correctos son: <strong>División del trabajo</strong> (especialización), <strong>Departamentalización</strong> (agrupar tareas), <strong>Jerarquía</strong> (línea de autoridad y responsabilidad) y <strong>Coordinación</strong> (integrar actividades). Las demás opciones son temas relacionados pero no son elementos del diseño organizacional.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q5" data-section="04">
   <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(6%)</strong> Indicar qué aspectos forman parte del microambiente y cuáles del macroambiente.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>Microambiente</strong> (actores cercanos): clientes, proveedores, competencia, grupos reguladores (agencias, sindicatos, grupos de interés). <strong>Macroambiente</strong> (fuerzas amplias): fuerzas económicas, político-legales, socioculturales, tecnológicas y ecológicas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q6" data-section="03">
   <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(15%)</strong> Describir brevemente qué es un sistema según la TGS y mencionar sus componentes básicos.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Un <strong>sistema</strong> es un conjunto de elementos que se relacionan para alcanzar un fin. Componentes básicos: <strong>Entradas (inputs)</strong> — recursos que ingresan; <strong>Procesos</strong> — transformaciones que agregan valor; <strong>Salidas (outputs)</strong> — productos o servicios resultantes; <strong>Retroalimentación (feedback)</strong> — información que ajusta el sistema; <strong>Entorno</strong> — contexto que condiciona y es afectado por el sistema. La TGS (Bertalanffy, 1950-1968) propone una visión integradora del todo más que de las partes.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q7" data-section="04">
   <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(15%)</strong> Describir la diferencia entre microambiente y macroambiente, dando un ejemplo de impacto de cada uno sobre una empresa.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">El <strong>microambiente</strong> son los actores cercanos que afectan la capacidad de servir al cliente (clientes, proveedores, competencia, reguladores). Ejemplo: un proveedor único sube los precios y la empresa debe absorberlos o renegociar. El <strong>macroambiente</strong> son las fuerzas amplias que afectan a todo el microambiente (económicas, político-legales, socioculturales, tecnológicas, ecológicas). Ejemplo: una nueva ley impositiva (político-legal) cambia los costos para toda la industria. Diferencia clave: el micro se puede negociar/influir; el macro hay que adaptarse a él.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q8" data-section="13">
   <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(15%)</strong> Describir las 5 fuerzas de Porter explicando cómo cada una intensifica o reduce la competencia en un sector.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">1) <strong>Rivalidad entre competidores existentes</strong>: a más competidores y productos similares, mayor competencia. 2) <strong>Amenaza de nuevos competidores</strong>: barreras de entrada bajas (poco capital, sin patentes) intensifican la competencia. 3) <strong>Amenaza de productos sustitutos</strong>: si existe un producto que cumple la misma función, limita los precios del sector. 4) <strong>Poder de negociación de proveedores</strong>: pocos proveedores con insumos críticos pueden imponer condiciones. 5) <strong>Poder de negociación de clientes (compradores)</strong>: clientes informados, concentrados o con muchas alternativas presionan precios a la baja.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q9" data-section="17">
   <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(15%)</strong> Explicar qué es un cursograma (flujograma) y mencionar al menos 5 símbolos básicos con su significado.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Un <strong>cursograma</strong> o flujograma es la representación gráfica, mediante símbolos, de los procesos de una organización (cómo fluye la información o los documentos a través de las áreas). Sirve para visualizar el proceso, detectar deficiencias y eliminar duplicaciones. Símbolos básicos (norma IRAM-34.501): <strong>Óvalo</strong> = operación, <strong>Rectángulo</strong> = control, <strong>"D"</strong> = demora, <strong>Rombo</strong> = decisión, <strong>Rectángulo con base curva</strong> = documento, <strong>Triángulo (▽)</strong> = archivo definitivo, <strong>Triángulo invertido (△)</strong> = archivo transitorio.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p2-q10" data-section="01">
   <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(15%)</strong> ¿Qué diferencia hay entre eficacia y eficiencia? ¿Qué pasa si una organización tiene una sin la otra? Dar un ejemplo concreto.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>Eficacia</strong> = hacer las cosas correctas (lograr los objetivos). <strong>Eficiencia</strong> = hacer las cosas bien (con la menor cantidad de recursos). <strong>Eficaz pero no eficiente</strong>: alcanza la meta pero gastando muchísimos recursos (ejemplo: un equipo de marketing que vende mucho gastando 10× más en publicidad que la competencia). <strong>Eficiente pero no eficaz</strong>: ejecuta tareas rápido y barato pero apunta al objetivo equivocado (ejemplo: un alumno que estudia muy organizadamente todo el material que NO entra en el parcial). El éxito requiere ambas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
     </div>
@@ -18121,64 +18332,318 @@ Verificaciones formales y sistemáticas.<br />
     </div>
     <div class="parciales-list">
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q1" data-section="13">
   <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(2%)</strong> "El plan es maestro, abarca toda la organización, es responsabilidad de la alta dirección/CEO y tiene un horizonte de 3 a 5 años o más." Nos referimos al nivel de planificación: Operativo, Programado, Táctico, Estratégico, Departamental.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>Estratégico</strong>. Plan a largo plazo, formulado por la alta dirección, amplio y genérico, contempla la organización como un todo, con decisiones complejas y no programadas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q2" data-section="12">
   <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(8%)</strong> Indicar cuáles de los siguientes son niveles de la pirámide de Maslow (en orden ascendente desde la base): Fisiológicas, Económicas, Seguridad, Felicidad, Sociales, Logro, Estima, Productividad, Autorrealización, Liderazgo.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Los niveles correctos (de base a cima) son: 1) <strong>Fisiológicas</strong>, 2) <strong>Seguridad</strong>, 3) <strong>Sociales</strong> (afiliación), 4) <strong>Estima</strong> (reconocimiento), 5) <strong>Autorrealización</strong>. Los demás (económicas, felicidad, logro, productividad, liderazgo) son distractores.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q3" data-section="12">
   <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(4%)</strong> Indicar las 4 etapas del ciclo motivacional (1, 2, 3, 4).</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>1)</strong> Necesidad (privación que genera tensión). <strong>2)</strong> Impulso (motivo que moviliza a actuar). <strong>3)</strong> Acciones (conducta dirigida a alcanzar la meta). <strong>4)</strong> Satisfacción (la necesidad se satisface y el impulso disminuye).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q4" data-section="12">
   <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(5%)</strong> Indicar cuáles son los 5 estilos de liderazgo de la rejilla (Managerial Grid) de Blake & Mouton (de la lista): Empobrecida (1,1), Carismático, Club campestre (1,9), Transformacional, Mitad de camino (5,5), Laissez-faire, Tareas y eficiencia (9,1), Servicial, Equipo (9,9), Burocrático.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Los 5 estilos correctos son: <strong>Administración empobrecida (1,1)</strong>, <strong>Club campestre (1,9)</strong>, <strong>Mitad del camino (5,5)</strong>, <strong>Tareas y eficiencia (9,1)</strong>, <strong>Administración en equipo (9,9)</strong>. Los demás (carismático, transformacional, laissez-faire, servicial, burocrático) son estilos de otros modelos.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q5" data-section="13">
   <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(6%)</strong> Indicar cuáles son actividades primarias y cuáles de soporte en la cadena de valor de Porter.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>Primarias</strong>: Logística interna, Operaciones, Logística externa, Marketing y ventas, Servicios posventa. <strong>De soporte</strong>: Infraestructura de la empresa, Gestión de recursos humanos, Desarrollo de tecnología, Compras (abastecimiento).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q6" data-section="14">
   <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(15%)</strong> Describir el Balanced Scorecard y sus 4 perspectivas.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">El <strong>Balanced Scorecard</strong> (Cuadro de Mando Integral) es una herramienta de control estratégico que traduce la visión y estrategia de la empresa en un conjunto coherente de indicadores. Sus 4 perspectivas: 1) <strong>Financiera</strong> (rentabilidad, ingresos, costos). 2) <strong>Cliente</strong> (satisfacción, retención, cuota de mercado). 3) <strong>Procesos internos</strong> (calidad, eficiencia operativa). 4) <strong>Aprendizaje y crecimiento</strong> (capacitación, cultura, innovación). Es "balanceado" porque evita mirar solo lo financiero, considerando también el futuro de la organización.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q7" data-section="13">
   <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(15%)</strong> Explicar el modelo FODA: sus 4 componentes y cómo se utiliza para formular estrategia.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>FODA</strong> es una metodología de análisis competitivo. Cuatro componentes: factores <em>internos</em> — <strong>F</strong>ortalezas (atributos que dan ventaja) y <strong>D</strong>ebilidades (atributos en desventaja); factores <em>externos</em> — <strong>O</strong>portunidades (factores aprovechables del entorno) y <strong>A</strong>menazas (factores que perjudican). <strong>Uso para estrategia:</strong> usar fortalezas para aprovechar oportunidades (FO), superar debilidades aprovechando oportunidades (DO), usar fortalezas para mitigar amenazas (FA), reducir debilidades y evitar amenazas (DA).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q8" data-section="16">
   <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(15%)</strong> Describir 3 formas de mejorar la productividad de una organización, con un ejemplo de cada una.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden">Recordando que Productividad = Salidas / Entradas, las 3 formas son: 1) <strong>Producir más con los mismos recursos</strong> (ej: capacitar al equipo para que produzca más unidades en la misma jornada). 2) <strong>Producir lo mismo con menos recursos</strong> (ej: automatizar una tarea para reducir horas-hombre y mantener el mismo output). 3) <strong>Producir mucho más con menos recursos</strong> — la ideal (ej: rediseñar el proceso eliminando tiempos muertos y cuellos de botella, como en el caso del montacargas del apunte donde se perdía 25% del tiempo).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q9" data-section="16">
   <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(15%)</strong> Explicar las 5 fases del ciclo DMAIC de Six Sigma.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>D</strong>efinir: el problema, alcance y objetivos del proyecto de mejora. <strong>M</strong>edir: el desempeño actual con datos cuantitativos. <strong>A</strong>nalizar: la causa raíz de los defectos o variabilidad. <strong>I</strong>mprove (Mejorar): diseñar e implementar las soluciones. <strong>C</strong>ontrolar: sostener la mejora con monitoreo continuo. La meta de Six Sigma es no más de 3,4 defectos por millón de oportunidades (eficiencia del 99,9996%).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
-<div class="parcial-card">
+<div class="parcial-card" data-pcard-id="p3-q10" data-section="12">
   <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(15%)</strong> ¿Qué es delegar correctamente y por qué no es lo mismo que "pasar trabajo"? Dar un ejemplo.</p>
-  <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
   <div class="fc-respuesta hidden"><strong>Delegar</strong> es asignar autoridad y responsabilidad a otra persona para que decida y actúe en una tarea o área. NO es "pasar trabajo" porque implica empoderar (dar capacidad real de decisión) y desarrollar al colaborador, no solo descargar tareas. <strong>Ejemplo</strong>: un gerente que le pide a su asistente "armá el reporte mensual como te lo pasé" está pasando trabajo. En cambio, "te encargo el reporte mensual: tenés autonomía para definir el formato, los indicadores y proponer mejoras; me presentás cualquier cambio relevante" es delegar — el asistente asume responsabilidad y desarrolla criterio propio.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+  <div class="parcial-block hidden" id="parcial-4">
+    <div class="parcial-header">
+      <h2>Parcial Nº 4 — Tema B (réplica del parcial real)</h2>
+      <p class="subtitle">Réplica del parcial Tema B: arranca con verdadero/falso, sigue con casos aplicados a empresas (donde tenés que elegir y justificar la herramienta), y termina con teorías de liderazgo y herramientas de control. Total 100%.</p>
+    </div>
+    <div class="parciales-list">
+
+<div class="parcial-section-title">A · Verdadero o Falso (justificá tu elección)</div>
+
+<div class="parcial-card" data-pcard-id="p4-q1" data-section="09">
+  <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(3%)</strong> "Toda autoridad es poder, pero no todo poder es autoridad." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Verdadero.</strong> La autoridad es una forma específica de poder: el poder formal/legítimo derivado del cargo dentro de la jerarquía. Pero existen otros tipos de poder que no son autoridad formal — poder experto (conocimiento), referente (carisma o admiración), coercitivo (capacidad de castigar) y de recompensa. Por eso un empleado puede tener mucho poder de hecho (un técnico clave, un líder informal) sin tener autoridad formal sobre nadie.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p4-q2" data-section="12">
+  <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(3%)</strong> "Liderazgo y jefatura son sinónimos: ambos implican autoridad formal sobre un grupo de personas." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> La jefatura es el rol formal de mando otorgado por la organización (autoridad y responsabilidad por el cargo). El liderazgo es la capacidad de influir sobre otros para alcanzar objetivos comunes y puede ser informal: una persona puede ser líder dentro de un equipo sin ocupar un puesto jerárquico, y puede haber jefes que no logren ejercer liderazgo. Pueden coincidir en una misma persona, pero no son sinónimos.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p4-q3" data-section="14">
+  <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(3%)</strong> "El control de gestión es una etapa que se realiza únicamente al final del ciclo administrativo, una vez ejecutadas todas las tareas planificadas." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> El control no es solo posterior: existen tres momentos. Control <strong>preliminar</strong> (antes de la ejecución, asegura recursos y condiciones), control <strong>concurrente</strong> (durante la ejecución, corrige sobre la marcha) y control <strong>posterior</strong> (luego de los hechos, retroalimenta para futuras planificaciones). Además, el control es continuo y cierra el ciclo PODC retroalimentando la planificación: planificar sin controlar es ejercicio inútil.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p4-q4" data-section="14">
+  <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(3%)</strong> "El Balanced Scorecard mide únicamente la performance financiera de la organización." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> El BSC fue diseñado justamente para superar la mirada exclusivamente financiera, integrando 4 perspectivas: financiera, cliente, procesos internos, y aprendizaje y crecimiento. Por eso se llama "balanceado": equilibra indicadores de corto plazo (financieros, resultados) con indicadores de largo plazo (capital humano, innovación, satisfacción del cliente).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">B · Casos aplicados — qué herramienta usarías y por qué</div>
+
+<div class="parcial-card" data-pcard-id="p4-q5" data-section="13">
+  <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(13%)</strong> Una pyme familiar de panadería con 4 sucursales en CABA viene perdiendo clientes: cadenas más grandes abrieron locales cerca, varias apps de delivery sumaron panaderías nuevas y los supermercados están bajando los precios del pan envasado. ¿Qué herramienta de análisis estratégico usarías para entender la situación competitiva del sector y por qué? Aplicala al caso identificando al menos un actor o factor por cada componente de la herramienta.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>5 Fuerzas de Porter.</strong> Sirve para entender la intensidad competitiva del sector e identificar de dónde viene la presión sobre los márgenes. Aplicación al caso: <strong>1) Rivalidad entre competidores existentes:</strong> las cadenas más grandes que abrieron cerca. <strong>2) Amenaza de nuevos competidores:</strong> barreras de entrada bajas en panadería (poco capital, locales pequeños) — fácil que entren más jugadores. <strong>3) Amenaza de productos sustitutos:</strong> el pan envasado de supermercado y el delivery de otras opciones (medialunas, alimentos congelados). <strong>4) Poder de negociación de proveedores:</strong> harineras y distribuidores de levadura/insumos; si son pocos pueden imponer precios. <strong>5) Poder de negociación de clientes (compradores):</strong> alto, hay muchas alternativas y bajo costo de cambio (caminar una cuadra más, abrir otra app). Justificación: Porter encuadra exactamente el dolor — la presión competitiva — y sirve después para definir estrategia (diferenciación por calidad artesanal, foco geográfico, alianzas con apps).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p4-q6" data-section="13">
+  <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(13%)</strong> Una empresa de software con 80 empleados tiene tres líneas de producto con desempeños distintos: el CRM crece muy rápido en un mercado en expansión y la empresa es líder; el ERP factura mucho pero el mercado ya es maduro y casi no crece; la app móvil tiene baja participación en un mercado chico que tampoco crece. La dirección quiere decidir en cuál seguir invirtiendo y de cuál desinvertir. ¿Qué herramienta de análisis estratégico usarías y por qué? Clasificá cada producto y sugerí la decisión asociada.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Matriz BCG (Boston Consulting Group).</strong> Cruza dos ejes — crecimiento del mercado y participación relativa — y permite decidir en qué unidades invertir, mantener, ordeñar o desinvertir. Aplicación: <strong>CRM:</strong> alta participación + alto crecimiento → <em>Estrella</em> ⇒ invertir fuerte para sostener liderazgo. <strong>ERP:</strong> alta participación + bajo crecimiento → <em>Vaca lechera</em> ⇒ mantenerlo, ordeñar la caja que genera para financiar las estrellas y los productos en duda. <strong>App móvil:</strong> baja participación + bajo crecimiento → <em>Perro</em> ⇒ evaluar desinvertir, discontinuar o reposicionar. Justificación: la BCG es la herramienta clásica para gestionar un portafolio de productos/líneas, que es exactamente lo que pide el caso.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p4-q7" data-section="16">
+  <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(13%)</strong> Una empresa industrial detecta que el 60% de los reclamos de clientes provienen del proceso de empaque (productos rotos, mal etiquetados o mezclados). La gerencia quiere lanzar un proyecto de mejora con un método estructurado, medible y orientado a reducir la variabilidad de los defectos. ¿Qué herramienta o metodología propondrías y por qué? Describí cada una de sus etapas aplicada al caso.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Six Sigma con ciclo DMAIC.</strong> Es la metodología estándar para reducir defectos y variabilidad en procesos repetitivos basándose en datos. Aplicación al caso de empaque: <strong>D — Definir:</strong> alcance (proceso de empaque), problema (60% de reclamos), objetivo (reducir reclamos a X%), equipo (operarios, calidad, mantenimiento), cliente afectado. <strong>M — Medir:</strong> tasa actual de defectos por turno, tipos (roturas, etiquetado, mezclas), costo de no calidad. <strong>A — Analizar:</strong> causa raíz con herramientas como Pareto, Ishikawa o 5 porqués (¿es la máquina, el operario, el material, el procedimiento?). <strong>I — Improve / Mejorar:</strong> implementar contramedidas (rediseño del puesto, capacitación, sensores, cambio de cinta o cajas). <strong>C — Controlar:</strong> sostener la mejora con cartas de control, KPI mensual, auditorías. Justificación: el caso pide método estructurado, medible y reducción de variabilidad — exactamente el dominio de Six Sigma.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p4-q8" data-section="14">
+  <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(13%)</strong> El gerente general de una empresa pide que cada área (Comercial, Operaciones, RRHH y Finanzas) defina indicadores que se sigan mensualmente, balanceados entre el corto y el largo plazo, y alineados con la estrategia. ¿Qué herramienta de control de gestión propondrías y por qué? Definí 1 indicador concreto por cada perspectiva de la herramienta aplicado al caso.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Balanced Scorecard (Cuadro de Mando Integral).</strong> Es la herramienta de control estratégico que traduce la estrategia en indicadores balanceados en 4 perspectivas — exactamente lo que pide el gerente. Aplicación con un KPI por perspectiva: <strong>Financiera:</strong> margen neto mensual o crecimiento de facturación interanual. <strong>Cliente:</strong> NPS (Net Promoter Score) o tasa de retención de clientes. <strong>Procesos internos:</strong> % de pedidos entregados en término o tasa de defectos. <strong>Aprendizaje y crecimiento:</strong> horas de capacitación per cápita por trimestre o tasa de rotación voluntaria. Justificación: el BSC alinea áreas operativas con la estrategia, equilibra resultados financieros con factores que sostienen el futuro y permite el seguimiento mensual que pide el caso.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">C · Teorías de liderazgo</div>
+
+<div class="parcial-card" data-pcard-id="p4-q9" data-section="12">
+  <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(12%)</strong> Mencioná y describí brevemente cuatro teorías o modelos de liderazgo que conozcas, indicando qué propone cada uno y en qué se diferencian entre sí.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden">Cuatro teorías habituales: <strong>1) Teoría X / Y de McGregor:</strong> X asume personas perezosas que requieren control estricto (estilo autoritario); Y asume personas que se autodirigen y buscan responsabilidad (estilo participativo). Es una <em>teoría de supuestos sobre las personas</em>. <strong>2) Rejilla gerencial de Blake & Mouton (Managerial Grid):</strong> ubica al líder según su preocupación por las personas y por la producción, definiendo 5 estilos — empobrecido (1,1), club campestre (1,9), mitad de camino (5,5), tareas (9,1) y equipo (9,9). Es <em>conductual / bidimensional</em>. <strong>3) Liderazgo situacional de Hersey-Blanchard:</strong> el estilo correcto depende de la madurez del equipo (dirigir, persuadir, participar, delegar). Es <em>contingencial</em>. <strong>4) Liderazgo transformacional vs transaccional (Burns / Bass):</strong> el transaccional motiva con premios y castigos por desempeño; el transformacional inspira con visión, valores y desarrollo personal del seguidor. Diferencia clave: McGregor habla de supuestos sobre las personas; Blake & Mouton, de conductas; Hersey-Blanchard, de adaptación al contexto; Burns/Bass, del tipo de motivación que el líder usa.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">D · Herramientas estratégicas vs herramientas de control</div>
+
+<div class="parcial-card" data-pcard-id="p4-q10" data-section="14">
+  <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(12%)</strong> Diferenciá una herramienta de análisis estratégico de una herramienta de control de gestión. Mencioná dos ejemplos de cada categoría y explicá brevemente qué pregunta responde cada herramienta.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Diferencia central:</strong> las herramientas de análisis estratégico ayudan a <em>decidir hacia dónde ir</em> (formular la estrategia mirando el entorno y la posición competitiva). Las herramientas de control de gestión ayudan a <em>verificar que estamos llegando</em> (medir la ejecución y detectar desvíos respecto del plan). <strong>Estratégicas — ejemplos:</strong> 1) <em>FODA</em>: ¿qué fortalezas internas y oportunidades externas tenemos vs debilidades y amenazas? 2) <em>5 Fuerzas de Porter</em>: ¿cuán atractivo y competitivo es nuestro sector? (También sirven cadena de valor de Porter, matriz BCG, PESTEL.) <strong>De control — ejemplos:</strong> 1) <em>Balanced Scorecard</em>: ¿cómo estamos ejecutando la estrategia en 4 perspectivas balanceadas? 2) <em>KPI / Tablero de comando</em>: ¿estamos cumpliendo los indicadores clave de cada área? (También Six Sigma, ISO 9000, balance y estado de resultados.)</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">E · Six Sigma, KPI y Balanced Scorecard</div>
+
+<div class="parcial-card" data-pcard-id="p4-q11" data-section="14">
+  <p class="fc-pregunta"><span class="q-num">11.</span> <strong>(12%)</strong> Una empresa quiere implementar simultáneamente Six Sigma, indicadores KPI y un Balanced Scorecard. Explicá brevemente para qué sirve cada uno y cómo se complementarían dentro de una misma organización.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Six Sigma:</strong> metodología de mejora continua (ciclo DMAIC) orientada a reducir variabilidad y defectos en procesos repetitivos; nivel operativo, apunta a no más de 3,4 defectos por millón de oportunidades. <strong>KPI (Key Performance Indicators):</strong> indicadores cuantitativos que miden el desempeño de un área, proceso o persona contra un objetivo (ej: % de entregas en término, NPS, costo por unidad). Son las "métricas concretas" del control. <strong>Balanced Scorecard:</strong> marco de control estratégico que organiza KPIs en 4 perspectivas (financiera, cliente, procesos internos, aprendizaje y crecimiento) y los alinea con la estrategia. <strong>Complementación:</strong> el BSC define qué medir y por qué (vincula estrategia con indicadores); los KPI son los números que llenan cada perspectiva del BSC; Six Sigma es uno de los métodos para mejorar los procesos cuyos KPI están bajos (especialmente en la perspectiva de procesos internos). Es decir: el BSC ordena, los KPI miden y Six Sigma corrige cuando los KPI muestran problemas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
 </div>
 
     </div>
@@ -18350,6 +18815,7 @@ function revelarParcial(btn) {
   btn.classList.add('revealed');
   btn.textContent = '✓ Respuesta revelada';
   btn.disabled = true;
+  updateParcialesProgress();
 }
 
 function mostrarParcial(num, btn) {
@@ -18358,6 +18824,93 @@ function mostrarParcial(num, btn) {
   if (block) block.classList.remove('hidden');
   document.querySelectorAll('.parcial-tab').forEach(t => t.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  updateParcialesProgress();
+}
+
+const PARCIAL_MARKS_KEY = 'parcial-answer-marks-v1';
+
+function loadParcialMarks() {
+  try {
+    const raw = localStorage.getItem(PARCIAL_MARKS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch (e) { return {}; }
+}
+
+function saveParcialMarks(marks) {
+  try { localStorage.setItem(PARCIAL_MARKS_KEY, JSON.stringify(marks)); } catch (e) {}
+}
+
+function applyStoredParcialMarks() {
+  const marks = loadParcialMarks();
+  Object.keys(marks).forEach(pcardId => {
+    const card = document.querySelector('.parcial-card[data-pcard-id="' + pcardId + '"]');
+    if (!card) return;
+    card.dataset.answer = marks[pcardId];
+    refreshParcialMarkButtons(card, marks[pcardId]);
+  });
+  updateParcialesProgress();
+}
+
+function refreshParcialMarkButtons(card, status) {
+  const goodBtn = card.querySelector('.btn-mark-good');
+  const badBtn = card.querySelector('.btn-mark-bad');
+  if (goodBtn) goodBtn.classList.toggle('active', status === 'right');
+  if (badBtn) badBtn.classList.toggle('active', status === 'wrong');
+}
+
+function markParcial(btn, status) {
+  const card = btn.closest('.parcial-card');
+  if (!card) return;
+  const pcardId = card.dataset.pcardId;
+  if (!pcardId) return;
+  const marks = loadParcialMarks();
+  if (card.dataset.answer === status) {
+    delete card.dataset.answer;
+    delete marks[pcardId];
+  } else {
+    card.dataset.answer = status;
+    marks[pcardId] = status;
+  }
+  saveParcialMarks(marks);
+  refreshParcialMarkButtons(card, card.dataset.answer);
+  updateParcialesProgress();
+}
+
+function resetParcialMarks() {
+  if (!confirm('¿Borrar todas las marcas de bien/mal de los parciales?')) return;
+  saveParcialMarks({});
+  document.querySelectorAll('.parcial-card').forEach(c => {
+    delete c.dataset.answer;
+    refreshParcialMarkButtons(c, null);
+  });
+  updateParcialesProgress();
+}
+
+function updateParcialesProgress() {
+  const visibleBlock = document.querySelector('.parcial-block:not(.hidden)');
+  if (!visibleBlock) return;
+  const cards = visibleBlock.querySelectorAll('.parcial-card');
+  const all = cards.length;
+  let revealed = 0, good = 0, bad = 0;
+  cards.forEach(c => {
+    if (c.dataset.revealed) revealed++;
+    if (c.dataset.answer === 'right') good++;
+    if (c.dataset.answer === 'wrong') bad++;
+  });
+  const badge = document.getElementById('parciales-progress');
+  if (badge) badge.textContent = revealed + ' / ' + all + ' reveladas';
+  const goodBadge = document.getElementById('parciales-good');
+  if (goodBadge) goodBadge.textContent = good + ' bien';
+  const badBadge = document.getElementById('parciales-bad');
+  if (badBadge) badBadge.textContent = bad + ' mal';
+}
+
+function goToApunteFromParcial(btn) {
+  const card = btn.closest('.parcial-card');
+  if (!card) return;
+  const sectionId = card.dataset.section;
+  if (!sectionId) return;
+  showSection(sectionId);
 }
 
 function filterNav(q) {
@@ -19578,6 +20131,12 @@ function mindmapGraphToggleHighlight() {
   mindmapGraphState.highlight = !mindmapGraphState.highlight;
   svg.classList.toggle('dim-non-shared', mindmapGraphState.highlight);
   btn.classList.toggle('active', mindmapGraphState.highlight);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', applyStoredParcialMarks);
+} else {
+  applyStoredParcialMarks();
 }
 
 </script>
