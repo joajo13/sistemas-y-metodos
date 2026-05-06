@@ -886,7 +886,7 @@ body {
 </tr>
 <tr>
   <td><a class="link-apunte" onclick="showSection('parciales')"><strong>★ Parciales — Práctica de examen</strong></a></td>
-  <td><span class="badge-q">4 parciales</span></td>
+  <td><span class="badge-q">6 parciales</span></td>
 </tr>
 <tr>
   <td><a class="link-apunte" onclick="showSection('mapa-mental')"><strong>★ Mapa Mental — Repaso global</strong></a></td>
@@ -18014,6 +18014,8 @@ Verificaciones formales y sistemáticas.<br />
     <button class="parcial-tab" onclick="mostrarParcial('2', this)">Parcial 2 — Simulacro</button>
     <button class="parcial-tab" onclick="mostrarParcial('3', this)">Parcial 3 — Simulacro</button>
     <button class="parcial-tab" onclick="mostrarParcial('4', this)">Parcial 4 — Tema B (real)</button>
+    <button class="parcial-tab" onclick="mostrarParcial('5', this)">Parcial 5 — Simulacro</button>
+    <button class="parcial-tab" onclick="mostrarParcial('6', this)">Parcial 6 — Simulacro</button>
   </div>
 
   <div class="parciales-toolbar" style="padding: 10px 48px 16px; max-width: 900px;">
@@ -18639,6 +18641,354 @@ Verificaciones formales y sistemáticas.<br />
     <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
   </div>
   <div class="fc-respuesta hidden"><strong>Six Sigma:</strong> metodología de mejora continua (ciclo DMAIC) orientada a reducir variabilidad y defectos en procesos repetitivos; nivel operativo, apunta a no más de 3,4 defectos por millón de oportunidades. <strong>KPI (Key Performance Indicators):</strong> indicadores cuantitativos que miden el desempeño de un área, proceso o persona contra un objetivo (ej: % de entregas en término, NPS, costo por unidad). Son las "métricas concretas" del control. <strong>Balanced Scorecard:</strong> marco de control estratégico que organiza KPIs en 4 perspectivas (financiera, cliente, procesos internos, aprendizaje y crecimiento) y los alinea con la estrategia. <strong>Complementación:</strong> el BSC define qué medir y por qué (vincula estrategia con indicadores); los KPI son los números que llenan cada perspectiva del BSC; Six Sigma es uno de los métodos para mejorar los procesos cuyos KPI están bajos (especialmente en la perspectiva de procesos internos). Es decir: el BSC ordena, los KPI miden y Six Sigma corrige cuando los KPI muestran problemas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+  <div class="parcial-block hidden" id="parcial-5">
+    <div class="parcial-header">
+      <h2>Parcial Nº 5 — Simulacro (Estructura, ACME, TGS y procesos)</h2>
+      <p class="subtitle">Mismo formato que el parcial real (100%). Mezcla verdadero/falso con justificación, casos a diagnosticar, descripción de áreas y comparativas. Todas las consignas se basan en contenidos del apunte.</p>
+    </div>
+    <div class="parciales-list">
+
+<div class="parcial-section-title">A · Verdadero o Falso (justificá tu elección)</div>
+
+<div class="parcial-card" data-pcard-id="p5-q1" data-section="03">
+  <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(3%)</strong> "En la TGS, un sistema cerrado intercambia energía e información con su entorno mediante retroalimentación, mientras que un sistema abierto se aísla del contexto." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> Es exactamente al revés: el <em>sistema cerrado</em> NO intercambia con el entorno (su entropía siempre debe ser positiva, tiende al desgaste) y el <em>sistema abierto</em> SÍ lo hace — recibe entradas, devuelve salidas y se retroalimenta del contexto. Las organizaciones son sistemas abiertos: por eso pueden generar negentropía (más organización) capacitándose y renovándose con información del entorno.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p5-q2" data-section="07">
+  <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(3%)</strong> "El Modelo ACME es una construcción de la Escuela Neoclásica que divide a la empresa en 7 áreas funcionales y se considera vigente sin modificaciones en las empresas modernas." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso (parcialmente).</strong> Es cierto que ACME es una construcción <em>mecanicista</em> propia de la Escuela Neoclásica y que divide a la empresa en 7 áreas (Investigación y Desarrollo, Producción, Comercialización, Finanzas y Control, Administración de Personal, Relaciones Externas, Secretaría y Legales). Pero NO se considera vigente sin modificaciones: el apunte aclara que es un "organigrama universal" didáctico pero ya superado — hoy ninguna empresa real funciona exactamente así. Sirve como referencia para entender funciones, no como receta operativa.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p5-q3" data-section="06">
+  <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(3%)</strong> "La organización informal nace de las relaciones personales y, aunque no figura en el organigrama, puede acelerar la comunicación, satisfacer necesidades sociales y resolver problemas con más agilidad que la estructura formal." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Verdadero.</strong> La organización informal surge espontáneamente de las relaciones personales y los líderes informales y, si bien no figura en el organigrama, aporta ventajas reales: mejora la comunicación vía radiopasillo, satisface necesidades sociales, resuelve problemas ágilmente, genera compromiso y fomenta líderes informales útiles. Tiene también limitaciones (rumores, resistencia al cambio, conflictos), pero la afirmación tal como está planteada es correcta.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p5-q4" data-section="05">
+  <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(3%)</strong> "En una estructura matricial se cumple estrictamente el principio de unidad de mando: cada empleado reporta a un único jefe que define sus prioridades." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> La estructura matricial combina departamentalización funcional con producto/proyecto, por lo que cada empleado reporta a <em>dos</em> jefes (uno funcional y uno de proyecto). Justamente <strong>rompe la unidad de mando</strong>: esa es su característica distintiva. Sus ventajas son flexibilidad y uso eficiente de especialistas; sus desventajas son los conflictos de poder y de prioridades que se generan por tener dos líneas de autoridad.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">B · Casos a analizar — diagnóstico organizacional</div>
+
+<div class="parcial-card" data-pcard-id="p5-q5" data-section="05">
+  <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(14%)</strong> Una multinacional acaba de adquirir 3 startups. Cada una mantiene producto, equipo y cultura distintas, y la directora quiere que cada unidad mantenga autonomía total con responsabilidad por sus propios resultados (P&amp;L), mientras la casa central solo controla finanzas y estrategia global. ¿Qué tipo de estructura organizacional propondrías y por qué? Indicá 2 ventajas y al menos 1 desventaja.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Estructura divisional (por producto / unidad de negocio).</strong> Cada startup se convierte en una división autónoma con sus propios recursos y responsabilidad por resultados, mientras la casa central mantiene funciones corporativas (finanzas, estrategia, control). <strong>Ventajas:</strong> 1) responsabilidad y rendición de cuentas claras (cada división responde por su P&amp;L); 2) foco en su mercado/producto/cultura, lo que respeta la identidad de cada startup adquirida; 3) flexibilidad para tomar decisiones rápidas. <strong>Desventajas:</strong> duplicación de funciones (cada división tiene su propio RRHH, sistemas, etc.) y posibles costos más altos; riesgo de que las divisiones compitan internamente o pierdan sinergias entre sí. Justificación: no conviene una funcional (centralizaría todo y mataría la autonomía) ni una matricial (sumaría complejidad innecesaria).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p5-q6" data-section="17">
+  <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(14%)</strong> Un hospital privado enfrenta quejas porque los pacientes deambulan entre admisión, laboratorio y consultorios sin saber a dónde ir, y existen archivos clínicos duplicados. La gerencia quiere graficar el circuito documental de la atención para detectar redundancias y demoras antes de digitalizar. ¿Qué herramienta propondrías y qué símbolos básicos usarías? Mencioná al menos 5 símbolos con su significado.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Cursograma (flujograma)</strong> bajo norma IRAM-34.501. Es la representación gráfica del proceso mediante símbolos: permite visualizar cómo fluye la información o los documentos entre áreas, detectar deficiencias y eliminar duplicaciones — exactamente lo que pide el hospital antes de digitalizar. Símbolos básicos: <strong>Óvalo</strong> = operación (ej: el médico atiende al paciente). <strong>Rectángulo</strong> = control (ej: enfermería verifica datos en admisión). <strong>"D"</strong> = demora (ej: paciente espera turno de laboratorio). <strong>Rombo</strong> = decisión (ej: ¿requiere internación?). <strong>Rectángulo con base curva</strong> = documento (ej: orden médica, historia clínica). <strong>Triángulo (▽)</strong> = archivo definitivo. <strong>Triángulo invertido (△)</strong> = archivo transitorio. Aplicado al caso: el cursograma probablemente expondrá las demoras entre áreas y los documentos duplicados, justificando la digitalización.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p5-q7" data-section="04">
+  <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(14%)</strong> Una pyme metalúrgica acaba de definir su misión, valores y objetivos a 5 años. Antes de cerrar el plan estratégico, la directora pide identificar qué actores y fuerzas externas pueden afectar a la empresa. ¿Qué clasificación conceptual aplicarías y cómo la usarías? Identificá al menos 3 actores del microambiente y 3 fuerzas del macroambiente con un ejemplo concreto para la metalúrgica.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden">Análisis del entorno organizacional dividido en <strong>microambiente</strong> (actores cercanos con los que la empresa puede negociar/influir) y <strong>macroambiente</strong> (fuerzas amplias a las que solo puede adaptarse). <strong>Microambiente:</strong> 1) <em>Clientes</em> (talleres mecánicos y plantas industriales que compran las piezas); 2) <em>Proveedores</em> (acerías, distribuidores de insumos); 3) <em>Competencia</em> (otros metalúrgicos locales e importadores); 4) <em>Grupos reguladores</em> (sindicato UOM, agencias de seguridad e higiene). <strong>Macroambiente:</strong> 1) <em>Económicas</em> (tipo de cambio que encarece o abarata insumos importados); 2) <em>Político-legales</em> (cambios en aranceles a la importación, normativa laboral); 3) <em>Tecnológicas</em> (corte láser CNC vs. métodos tradicionales); 4) <em>Socioculturales</em> (demanda de manufactura nacional); 5) <em>Ecológicas</em> (regulación ambiental sobre residuos). Uso: el micro se trabaja con negociación y estrategia comercial; el macro requiere planes de contingencia y adaptación.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">C · Modelo ACME y áreas funcionales</div>
+
+<div class="parcial-card" data-pcard-id="p5-q8" data-section="07">
+  <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(12%)</strong> Mencioná las 7 áreas del Modelo ACME en orden y describí brevemente la actividad principal de 4 de ellas. Indicá qué escuela de administración propuso este modelo y qué carácter tiene (mecanicista u orgánico).</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden">Las 7 áreas en orden: <strong>1) Investigación y Desarrollo</strong>, <strong>2) Producción</strong>, <strong>3) Comercialización</strong>, <strong>4) Finanzas y Control</strong>, <strong>5) Administración de Personal</strong>, <strong>6) Relaciones Externas</strong>, <strong>7) Secretaría y Legales</strong>. Descripción breve de 4: <em>Investigación y Desarrollo:</em> aplica procesos científicos y tecnológicos para crear o mejorar productos, procesos y servicios. <em>Producción:</em> desarrolla métodos económicos para fabricar los productos autorizados, coordina mano de obra, materiales, instalaciones y entrega. <em>Comercialización:</em> dirige y estimula el flujo de mercaderías del productor al consumidor (incluye investigación de mercado, publicidad, ventas y distribución física). <em>Finanzas y Control:</em> planifica, dirige y mide los resultados de las operaciones monetarias (obtención de fondos y registros contables). El modelo fue propuesto por la <strong>Escuela Neoclásica</strong> y es de carácter <strong>mecanicista</strong>.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">D · Teoría General de los Sistemas aplicada</div>
+
+<div class="parcial-card" data-pcard-id="p5-q9" data-section="03">
+  <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(17%)</strong> Caso: una fábrica de juguetes recibe materias primas (plástico, pintura, packaging), las transforma en juguetes terminados, los vende a comercios y luego analiza encuestas de niños y padres para ajustar el próximo lote. Identificá <em>entradas</em>, <em>proceso</em>, <em>salidas</em>, <em>retroalimentación</em> y <em>entorno</em> aplicados al caso. Explicá brevemente, además, las propiedades de <strong>sinergia</strong>, <strong>homeostasis</strong> y <strong>entropía</strong> en este sistema.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Componentes del sistema:</strong> <em>Entradas:</em> plástico, pintura, packaging, energía, mano de obra, dinero, información de mercado. <em>Proceso:</em> moldeado, pintado, ensamble, control de calidad, packaging. <em>Salidas:</em> juguetes terminados, residuos, información financiera. <em>Retroalimentación:</em> encuestas a niños y padres, devoluciones, cifras de venta — son la información que vuelve al sistema para corregir el próximo lote. <em>Entorno:</em> clientes, proveedores, competidores, regulación de seguridad infantil, tendencias de juego, tipo de cambio. <strong>Propiedades:</strong> <em>Sinergia</em> — el resultado de la fábrica integrada (diseño + producción + marketing) supera lo que esas áreas lograrían por separado (2+2=5). <em>Homeostasis</em> — la fábrica mantiene su equilibrio dinámico autorregulándose: si suben las quejas por defectos, el control de calidad se ajusta para volver al estándar. <em>Entropía</em> — el desgaste natural (máquinas que envejecen, equipos que se desactualizan): como es un sistema abierto, puede generar negentropía con capacitación, mantenimiento e innovación constante.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">E · Estructuras organizacionales — comparativa</div>
+
+<div class="parcial-card" data-pcard-id="p5-q10" data-section="05">
+  <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(17%)</strong> Compará las estructuras <strong>Funcional</strong>, <strong>Divisional (por producto)</strong> y <strong>Matricial</strong>. Indicá, para cada una: (a) criterio de agrupamiento de empleados, (b) una ventaja, (c) una desventaja y (d) un caso típico donde conviene usarla.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Funcional:</strong> (a) agrupa por especialidad (Finanzas, Operaciones, Sistemas, Marketing). (b) Ventaja: especialización profunda y economías de escala dentro de cada área. (c) Desventaja: silos entre departamentos y comunicación lenta entre áreas. (d) Conviene en empresas pequeñas o medianas con un único producto/servicio y entorno estable. <strong>Divisional (por producto):</strong> (a) agrupa por línea de producto, mercado o región (cada división con sus propias funciones). (b) Ventaja: foco en el producto/cliente y responsabilidad clara por resultados (P&amp;L por división). (c) Desventaja: duplicación de funciones (cada división con su propio RRHH, finanzas, etc.) y mayor costo. (d) Conviene en empresas grandes y diversificadas, con productos o mercados muy distintos. <strong>Matricial:</strong> (a) agrupa simultáneamente por función y por proyecto/producto — cada empleado tiene dos jefes. (b) Ventaja: uso eficiente de especialistas y flexibilidad para múltiples proyectos. (c) Desventaja: rompe la unidad de mando, genera conflictos de poder y prioridades. (d) Conviene en empresas con muchos proyectos simultáneos que requieren especialistas compartidos (consultoras, ingeniería, agencias).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+  <div class="parcial-block hidden" id="parcial-6">
+    <div class="parcial-header">
+      <h2>Parcial Nº 6 — Simulacro (Dirección, motivación, planificación y mejora)</h2>
+      <p class="subtitle">Mismo formato que el parcial real (100%). Combina verdadero/falso, identificación de niveles y conceptos, casos integradores y comparativas. Todas las consignas se basan en contenidos del apunte.</p>
+    </div>
+    <div class="parciales-list">
+
+<div class="parcial-section-title">A · Verdadero o Falso (justificá tu elección)</div>
+
+<div class="parcial-card" data-pcard-id="p6-q1" data-section="12">
+  <p class="fc-pregunta"><span class="q-num">1.</span> <strong>(3%)</strong> "Según la pirámide de Maslow, las necesidades de estima (reconocimiento) deben satisfacerse antes que las fisiológicas." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> Maslow plantea exactamente lo contrario: las necesidades están jerarquizadas de la base a la cima y deben satisfacerse <em>desde abajo</em>. El orden ascendente es: 1) Fisiológicas, 2) Seguridad, 3) Sociales (afiliación), 4) Estima (reconocimiento), 5) Autorrealización. No se puede motivar a alguien con un ascenso o un elogio público (estima) si todavía no le pagás un sueldo que le permita comer (fisiológicas).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p6-q2" data-section="13">
+  <p class="fc-pregunta"><span class="q-num">2.</span> <strong>(3%)</strong> "Las decisiones gerenciales del nivel estratégico son típicamente programadas porque siguen procedimientos estandarizados y rutinas conocidas." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> Las decisiones del nivel estratégico son justamente <em>NO programadas</em>: son complejas, novedosas, de largo plazo y abarcan a toda la organización (ejemplo: expandirse a un nuevo país, cambiar el modelo de negocio). Las decisiones <em>programadas</em> son las repetitivas y rutinarias, típicas del nivel operativo (ejemplo: reabastecer un insumo cuando llega al stock mínimo). El nivel táctico mezcla ambas.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p6-q3" data-section="11">
+  <p class="fc-pregunta"><span class="q-num">3.</span> <strong>(3%)</strong> "Comunicación y negociación son habilidades de las que un directivo puede prescindir si tiene autoridad formal suficiente: con dar órdenes alcanza." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> El apunte ubica a la <em>comunicación</em> y la <em>negociación</em> entre las habilidades fundamentales del líder, junto con liderazgo, motivación, delegación y toma de decisiones. La autoridad formal no garantiza el cumplimiento ni el compromiso del equipo: la comunicación es necesaria para alinear, dar feedback y compartir significados, y la negociación para manejar conflictos y llegar a acuerdos satisfactorios. Un jefe que solo da órdenes puede tener "jefatura" pero no ejerce liderazgo real.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p6-q4" data-section="16">
+  <p class="fc-pregunta"><span class="q-num">4.</span> <strong>(3%)</strong> "El cuello de botella es la actividad más rápida del proceso y por eso determina la productividad total del sistema." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> El cuello de botella es la actividad o punto del proceso <em>más lento</em> (no el más rápido): limita la capacidad total del sistema porque toda la línea avanza al ritmo de su tarea más lenta. Se detecta con cronogramas (Diagrama de Gantt) identificando las tareas que más tiempo consumen o crean esperas posteriores. Es cierto que determina la productividad total — pero por ser la más lenta, no la más rápida.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p6-q5" data-section="03">
+  <p class="fc-pregunta"><span class="q-num">5.</span> <strong>(3%)</strong> "La Teoría General de los Sistemas considera que el todo es igual a la suma de sus partes; por eso conviene optimizar cada componente por separado para maximizar el resultado global." Indicá si es Verdadero o Falso y justificá.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Falso.</strong> La TGS sostiene exactamente lo opuesto a través del concepto de <em>sinergia</em>: "la suma de las partes es diferente del todo" (2 + 2 = 5, o distinto de 4). El examen aislado de las partes no puede explicar ni predecir la conducta del todo — por eso la TGS adopta un enfoque <em>sistémico/integrador</em> y rechaza el reduccionismo. Optimizar cada componente por separado no maximiza el resultado global porque las interacciones entre las partes son las que generan valor (o lo destruyen).</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">B · Identificación — niveles, fuentes de poder y ciclo motivacional</div>
+
+<div class="parcial-card" data-pcard-id="p6-q6" data-section="13">
+  <p class="fc-pregunta"><span class="q-num">6.</span> <strong>(9%)</strong> Identificá a qué nivel de planificación corresponde cada caso (estratégico, táctico u operativo) y justificá brevemente: <strong>a)</strong> Un supervisor de turno reordena la planilla horaria de su sector para esta semana. <strong>b)</strong> El gerente comercial fija las metas de venta trimestrales por región. <strong>c)</strong> El CEO define que la empresa va a expandirse a Brasil en los próximos 5 años.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>a) Operativo:</strong> alcance acotado a un sector, horizonte muy corto (una semana), tareas rutinarias y específicas, decisiones programadas. <strong>b) Táctico:</strong> alcance de un área (Comercial), horizonte de mediano plazo (trimestre), traduce la estrategia en metas departamentales. <strong>c) Estratégico:</strong> alcance de toda la organización, horizonte de largo plazo (3-5 años o más), responsabilidad de la alta dirección/CEO, decisión compleja y no programada. Recordá la regla: a más alto el nivel jerárquico → mayor horizonte temporal → mayor amplitud → menor estructuración de la decisión.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p6-q7" data-section="09">
+  <p class="fc-pregunta"><span class="q-num">7.</span> <strong>(9%)</strong> Identificá qué fuente de poder (French &amp; Raven) se ejerce en cada situación: <strong>a)</strong> Un gerente despide a un empleado por bajo rendimiento. <strong>b)</strong> Un técnico es consultado por todo el equipo por su dominio del nuevo software. <strong>c)</strong> Un colaborador hace caso a su jefe simplemente porque "ese es el cargo". <strong>d)</strong> Un líder informal logra que el equipo se quede una hora más porque "lo respetan y lo admiran". <strong>e)</strong> Un supervisor ofrece un día libre extra al primero que termine la tarea.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>a) Coercitivo:</strong> capacidad de aplicar una consecuencia negativa (sanción, despido). <strong>b) Experto:</strong> influencia derivada del conocimiento técnico. <strong>c) Legítimo / Autoridad formal:</strong> influencia que viene del cargo dentro de la jerarquía. <strong>d) Referencia (referente):</strong> influencia por carisma, admiración o respeto personal — típica de los líderes informales. <strong>e) Recompensa:</strong> capacidad de otorgar algo valorado (día libre, bono, ascenso). El liderazgo no proviene solo del cargo: las fuentes de experto y referencia explican por qué hay líderes informales más influyentes que algunos jefes formales.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p6-q8" data-section="12">
+  <p class="fc-pregunta"><span class="q-num">8.</span> <strong>(9%)</strong> Identificá qué etapa del ciclo motivacional describe cada frase y ordenalas en la secuencia correcta: <strong>a)</strong> "Voy al kiosco y compro un sándwich." <strong>b)</strong> "Tengo hambre y siento ganas de comer algo ya." <strong>c)</strong> "Como el sándwich y mi atención vuelve al trabajo." <strong>d)</strong> "Algo me falta, empiezo a sentir incomodidad."</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Orden correcto:</strong> d → b → a → c. <strong>d) Necesidad (privación):</strong> una carencia genera tensión ("algo me falta, empiezo a sentir incomodidad"). <strong>b) Impulso:</strong> la tensión se convierte en un motivo que moviliza a actuar ("tengo hambre y siento ganas de comer algo ya"). <strong>a) Acciones:</strong> conducta dirigida a alcanzar la meta y reducir la tensión ("voy al kiosco y compro un sándwich"). <strong>c) Satisfacción:</strong> la necesidad se satisface y el impulso disminuye ("como el sándwich y mi atención vuelve al trabajo"). El ciclo se reinicia cuando aparece una nueva necesidad.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">C · Casos integradores</div>
+
+<div class="parcial-card" data-pcard-id="p6-q9" data-section="01">
+  <p class="fc-pregunta"><span class="q-num">9.</span> <strong>(14%)</strong> Una empresa logística pierde plata: los choferes cumplen con todas las rutas asignadas (eficacia alta) pero los camiones quedan parados horas esperando que se complete la carga, y se calcula un 30% de tiempo ocioso. La gerencia quiere mejorar la productividad. ¿Cómo se relacionan eficacia, eficiencia y productividad en este caso? Proponé 3 caminos concretos para mejorar la productividad y justificá por qué cada uno la incrementa.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Relación:</strong> Productividad = Salidas / Entradas. <em>Eficacia</em> es lograr los objetivos correctos ("hacer las cosas que se deben hacer") — los choferes hacen su parte. <em>Eficiencia</em> es lograr el resultado con la menor cantidad de recursos ("hacer las cosas bien") — acá se pierde 30% del tiempo. La empresa es <strong>eficaz pero no eficiente</strong>, por eso la productividad cae aunque cumpla rutas. <strong>3 caminos para mejorar la productividad:</strong> 1) <em>Producir más con los mismos recursos</em> — coordinar la carga con la llegada del camión (slot fijo) para que apenas llega ya esté lista, sumando viajes en la misma jornada. 2) <em>Producir lo mismo con menos recursos</em> — reducir la flota o las horas-hombre porque al eliminar el ocio sobran camiones; o automatizar la documentación de despacho. 3) <em>Producir mucho más con menos recursos</em> (la ideal) — rediseñar el proceso completo eliminando cuellos de botella (tipo el caso del montacargas del apunte donde se perdía 25% del tiempo): software de ruteo, depósito reorganizado y carga paralela. En todos los casos, sube la salida y/o baja la entrada → sube la productividad.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-card" data-pcard-id="p6-q10" data-section="12">
+  <p class="fc-pregunta"><span class="q-num">10.</span> <strong>(14%)</strong> Un call center detecta que la rotación de empleados subió al 40% anual y la satisfacción del cliente cayó. La directora quiere implementar un programa de mejora basado en motivación y comunicación. Aplicá la pirámide de Maslow para identificar a qué necesidades podría apuntar el programa (mencioná al menos 3 niveles con una acción concreta cada uno) y proponé además 2 acciones concretas de comunicación interna que ayudarían a retener al personal.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Programa por niveles de Maslow:</strong> <em>Fisiológicas:</em> revisar la grilla salarial para que el sueldo cubra las necesidades básicas y agregar pausas reales y un espacio decente de descanso (cuando el call atiende picos largos). <em>Seguridad:</em> ofrecer estabilidad mediante contrato por tiempo indeterminado, capacitación en manejo de stress y un seguro médico complementario. <em>Sociales (afiliación):</em> fomentar el trabajo en equipo con células que se eligen, líderes de equipo cercanos y eventos de integración para mejorar el clima laboral. <em>Estima (reconocimiento):</em> programa "operador del mes" con elogio público, premios visibles y un plan de carrera con ascensos a líder/supervisor. <em>Autorrealización:</em> rotaciones a otras áreas (calidad, capacitación), proyectos de mejora propuestos por los propios operadores y autonomía para resolver casos complejos. <strong>2 acciones de comunicación interna:</strong> 1) Reuniones quincenales de equipo con feedback bidireccional (escucha activa, no solo bajada de línea), incluyendo motivos de bajas y mejoras pedidas. 2) Canal formal de sugerencias y quejas con respuesta garantizada en X días, para reducir el peso del rumor de pasillo y construir confianza. Beneficio cruzado: si baja la rotación, mejora la calidad de atención y vuelve a subir la satisfacción del cliente.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">D · Comparativa: proceso administrativo vs proceso de control</div>
+
+<div class="parcial-card" data-pcard-id="p6-q11" data-section="15">
+  <p class="fc-pregunta"><span class="q-num">11.</span> <strong>(15%)</strong> Diferenciá las 4 fases del <strong>proceso administrativo (PODC)</strong> de las 4 fases del <strong>proceso de control de gestión</strong>. Explicá brevemente cada fase y cómo ambos procesos se conectan para formar un ciclo continuo en la organización.</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>Proceso administrativo (PODC):</strong> <em>Planificar</em> (definir objetivos y trazar el camino para alcanzarlos), <em>Organizar</em> (asignar recursos, dividir tareas y diseñar la estructura para ejecutar el plan), <em>Dirigir</em> (liderar, motivar y comunicar al equipo para que ejecute lo planeado), <em>Controlar</em> (medir resultados reales contra lo planificado y aplicar correcciones). <strong>Proceso de control de gestión (4 fases):</strong> <em>i)</em> Establecer parámetros de medición (indicadores/estándares); <em>ii)</em> Medir los resultados reales; <em>iii)</em> Evaluar el resultado comparándolo con el estándar; <em>iv)</em> Retroalimentar con medidas correctivas. <strong>Conexión:</strong> el control de gestión es el "zoom" de la cuarta fase del PODC. Sus medidas correctivas vuelven a alimentar la <em>planificación</em> de la siguiente vuelta — por eso el PODC es un ciclo continuo y no un trayecto que termina. El apunte sintetiza esto cuando afirma que "la planificación sin control es un ejercicio inútil": planificar → organizar → dirigir → controlar → planificar de nuevo, cerrando el ciclo en cada período.</div>
+  <div class="parcial-mark">
+    <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
+    <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
+    <button class="btn-mark btn-mark-bad" onclick="markParcial(this, 'wrong')">✗ Mal</button>
+  </div>
+</div>
+
+<div class="parcial-section-title">E · Vroom, recompensas y reforzamiento</div>
+
+<div class="parcial-card" data-pcard-id="p6-q12" data-section="11">
+  <p class="fc-pregunta"><span class="q-num">12.</span> <strong>(15%)</strong> Una empresa quiere mejorar la motivación del personal. Describí brevemente: <strong>a)</strong> La <em>teoría de las expectativas de Vroom</em> (los 3 factores y la implicancia de que uno solo sea cero). <strong>b)</strong> La diferencia entre recompensas <em>intrínsecas</em> y <em>extrínsecas</em> con un ejemplo de cada una. <strong>c)</strong> Una limitación práctica: ¿por qué la <em>teoría del reforzamiento de Skinner</em> no es suficiente por sí sola para sostener la motivación de un equipo a largo plazo?</p>
+  <div class="parcial-actions">
+    <button class="btn-reveal" onclick="revelarParcial(this)">Mostrar respuesta</button>
+    <button class="fc-link-source" onclick="goToApunteFromParcial(this)">↗ Ver en el apunte</button>
+  </div>
+  <div class="fc-respuesta hidden"><strong>a) Teoría de Vroom:</strong> la motivación es producto de 3 factores que se multiplican: <em>Expectativa</em> ("si me esfuerzo, ¿podré lograr el objetivo?"), <em>Instrumentalidad</em> ("si lo logro, ¿recibiré una recompensa?") y <em>Valencia</em> ("¿valoro esa recompensa?"). Si <strong>uno solo es cero, la motivación es nula</strong>: no alcanza con esforzarse si la recompensa nunca llega, ni con prometer un premio que el empleado no valora. <strong>b) Recompensas:</strong> <em>Extrínsecas</em> son tangibles y las da un tercero (ej: un bono, un ascenso, un premio en dinero); <em>Intrínsecas</em> son la satisfacción personal derivada de la propia tarea (ej: el sentimiento de logro al cerrar un proyecto importante, el orgullo del trabajo bien hecho, aprender algo nuevo). Un buen líder equilibra ambas. <strong>c) Limitación de Skinner:</strong> la teoría del reforzamiento sostiene que la conducta seguida por consecuencias positivas tiende a repetirse. Es útil pero insuficiente porque: (1) depende solo de recompensas extrínsecas y descuida la motivación intrínseca, (2) las personas se acostumbran al refuerzo y necesitan dosis crecientes para mantener el efecto, y (3) no contempla por qué una persona valora o no esa recompensa (que es lo que sí mira Vroom con la valencia). A largo plazo conviene combinarla con propósito, autonomía y crecimiento.</div>
   <div class="parcial-mark">
     <span class="fc-aggr-mark-label">¿Cómo respondiste?</span>
     <button class="btn-mark btn-mark-good" onclick="markParcial(this, 'right')">✓ Bien</button>
